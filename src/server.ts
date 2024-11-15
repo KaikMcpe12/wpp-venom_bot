@@ -11,6 +11,7 @@ const app: FastifyInstance = fastify({
 
 app.setSerializerCompiler(serializerCompiler)
 app.setValidatorCompiler(validatorCompiler)
+
 app.register(instanceVenomBot)
 
 app.register(cors, {

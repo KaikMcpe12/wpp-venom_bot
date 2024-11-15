@@ -7,7 +7,7 @@ async function venomBotPlugin(fastify: any, options: any) {
     fastify.addHook('onReady', async () => {
         try {
             const wpp = await venom.create(
-                'contacteme',
+                'wpp-venombot',
                 (base64Qr, asciiQR) => {
                     console.log(asciiQR)
                 },

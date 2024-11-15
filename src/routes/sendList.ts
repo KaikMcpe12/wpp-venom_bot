@@ -1,20 +1,31 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from 'zod'
-import { sendTextController } from "../controller/sendTextController";
+import { ISendList } from "../interface/messageInterface";
+import { sendListController } from "../controller/sendListController";
 
 export function sendList(app: FastifyInstance){
-    app.withTypeProvider<ZodTypeProvider>().post<{Body: {number: number, message: string}}>('/wpp/sendlist', {
+    app.withTypeProvider<ZodTypeProvider>().post<{Body: ISendList}>('/wpp/sendlist', {
         schema: {
             body: z.object({
-                number: z.number(),
-                message: z.string(),
+                numberPhone: z.coerce.number(),
+                title: z.string(),
+                subTitle: z.string(),
+                description: z.string(),
+                menuName: z.string(),
+                list: z.array(z.object({
+                    title: z.string(),
+                    rows: z.object({
+                        title: z.string(),
+                        description: z.string(),
+                    })
+                })),
             })
         }
     },async (req, reply) => {
-        const { number, message } = req.body
+        const { numberPhone, title, subTitle, description, menuName, list } = req.body;
 
-        const result = await sendTextController(app, number, message)
+        const result = await sendListController(app, { numberPhone, title, subTitle, description, menuName, list })
 
         if(!result){
             reply.status(400).send('Message not sent')

@@ -1,4 +1,5 @@
 import * as venom from 'venom-bot';
+import { ISendList } from '../interface/messageInterface';
 
 export default class WppBotRepository{
     wpp!: venom.Whatsapp
@@ -21,9 +22,9 @@ export default class WppBotRepository{
         }
     }
 
-    async sendList(number: string, title: string, subTitle: string, description: string, menu: any, list: any) {
+    async sendList(data: ISendList) {
         try{
-            const result = this.wpp.sendListMenu(number, title, subTitle, description, menu, list)
+            const result = this.wpp.sendListMenu(data.numberPhone, data.title, data.subTitle, data.description, data.menuName, data.list)
 
             return result
         }catch(err: Error | any){
