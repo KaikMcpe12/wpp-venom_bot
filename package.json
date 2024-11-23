@@ -19,6 +19,7 @@
   "dependencies": {
     "fastify": "^5.0.0",
     "fastify-type-provider-zod": "^4.0.2",
+    "puppeteer": "^19.11.1",
     "venom-bot": "^5.1.0",
     "zod": "^3.23.8"
   }

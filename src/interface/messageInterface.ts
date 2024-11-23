@@ -12,12 +12,27 @@ export interface ISendList{
     list: IList[];
 }
 
-export interface IList{
+interface IList{
     title: string;
     rows: IRowList[];
 }
 
-export interface IRowList{
+interface IRowList{
     title: string;
     description: string;
+}
+
+export interface ISendButton{
+    numberPhone: string;
+    title: string;
+    description: string;
+    buttons: IButton[];
+}
+
+interface IButton{
+    buttonText: IButtonText;
+}
+
+interface IButtonText{
+    displayText: string;
 }

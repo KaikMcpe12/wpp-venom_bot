@@ -15,22 +15,24 @@ export function sendList(app: FastifyInstance){
                 menuName: z.string(),
                 list: z.array(z.object({
                     title: z.string(),
-                    rows: z.object({
-                        title: z.string(),
-                        description: z.string(),
-                    })
+                    rows: z.array(
+                        z.object({
+                            title: z.string(),
+                            description: z.string(),
+                        })
+                    ),
                 })),
             })
         }
     },async (req, reply) => {
         const { numberPhone, title, subTitle, description, menuName, list } = req.body;
 
-        const result = await sendListController(app, { numberPhone, title, subTitle, description, menuName, list })
+        const result = await sendListController({ numberPhone, title, subTitle, description, menuName, list })
 
         if(!result){
             reply.status(400).send('Message not sent')
         }
         
-        reply.status(200).send('Message send')
+        reply.status(200).send({message: 'Message send'})
     })
 }

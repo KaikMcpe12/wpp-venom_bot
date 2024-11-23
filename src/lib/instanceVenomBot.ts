@@ -1,28 +1,28 @@
-import fp from 'fastify-plugin'
-import * as venom from 'venom-bot'
+import * as venom from 'venom-bot';
 
-async function venomBotPlugin(fastify: any, options: any) {
-    fastify.decorate('venomBot', null)
+let client: venom.Whatsapp;
 
-    fastify.addHook('onReady', async () => {
-        try {
-            const wpp = await venom.create(
-                'wpp-venombot',
-                (base64Qr, asciiQR) => {
-                    console.log(asciiQR)
-                },
-                undefined,
-                { logQR: false }
-            )
-            
-            fastify.venomBot = wpp
+export const initializeVenom = async () => {
+  try {
+    client = await venom.create({
+      session: 'wpp_venom-bot',
+      headless: false
+    });
 
-            fastify.log.info('Venom Bot initialized successfully');
-        } catch (error) {
-            fastify.log.error('Error initializing venom bot:', error)
-            throw error
-        }
-    })
-}
+    client.onMessage(async (message) => {
+      console.log('New message of:', message);
+    });
 
-export default fp(venomBotPlugin)
+    return client;
+  } catch (err: Error | any) {
+    console.log(err)
+    throw new Error('Error initializing venom bot:', err);
+  }
+};
+
+export const getInstanceVenom = async () => { 
+  if (!client) { 
+    client = await initializeVenom(); 
+  } 
+  return client; 
+};
