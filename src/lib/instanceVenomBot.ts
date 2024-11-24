@@ -1,4 +1,5 @@
 import * as venom from 'venom-bot';
+import { processMessageService } from '../services/processMessage';
 
 let client: venom.Whatsapp;
 
@@ -11,6 +12,7 @@ export const initializeVenom = async () => {
 
     client.onMessage(async (message) => {
       console.log('New message of:', message);
+      await processMessageService(client, message)
     });
 
     return client;
