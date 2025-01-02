@@ -50,3 +50,9 @@ const startServer = async () => {
 startServer()
 
 export { wppVenom, ollamaClient }
+
+// adaptar o bot para enviar funções
+// ligar e desligar bot por usuários
+// salvar dados de usuários
+// salvar preferências
+// detalhar quem é o bot
