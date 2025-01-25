@@ -1,30 +1,50 @@
 import * as venom from 'venom-bot';
 import { processMessageService } from '../services/processMessage';
+import EventEmitter from 'events';
 
-let client: venom.Whatsapp;
+export class Venom {
+  private client: venom.Whatsapp | null = null;
+  public events: EventEmitter = new EventEmitter();
 
-export const initializeVenom = async () => {
-  try {
-    client = await venom.create({
-      session: 'wpp_venom-bot',
-      headless: false
-    });
+  public initializeVenom = async () => {
+    try {
+      this.client = await venom.create({
+        session: 'wpp_venom-bot',
+        headless: 'new',
+        catchQR: async (base64Qr) => {
+          this.events.emit('qrCode', base64Qr);
+        },
+      });
+  
+      this.client.onMessage(async (message) => {
+        console.log('New message of:', message);
+        await processMessageService(this.client!, message)
+      });
+  
+      return this.client;
+    } catch (err: Error | any) {
+      console.log(err)
+      throw new Error('Error initializing venom bot:', err);
+    }
+  };
 
-    client.onMessage(async (message) => {
-      console.log('New message of:', message);
-      await processMessageService(client, message)
-    });
+  public terminateVenom = async (): Promise<void> => {
+    if (this.client) {
+      await this.client.logout();
+      this.client = null;
+      console.log('Instância do Venom Bot encerrada.');
+    }
+  };
 
-    return client;
-  } catch (err: Error | any) {
-    console.log(err)
-    throw new Error('Error initializing venom bot:', err);
-  }
-};
+  // public getInstanceVenom = async () => { 
+  //   if (!this.client) { 
+  //     this.client = await this.initializeVenom(); 
+  //   }
 
-export const getInstanceVenom = async () => { 
-  if (!client) { 
-    client = await initializeVenom(); 
-  } 
-  return client; 
-};
+  //   return this.client; 
+  // };
+
+  // public get qrCodeData(): string | null {
+  //   return this._qrCodeData;
+  // }
+}

@@ -4,11 +4,12 @@ import { serializerCompiler, validatorCompiler } from "fastify-type-provider-zod
 import { helloworld } from "./routes/helloWorld";
 import { sendText } from "./routes/sendText";
 import { sendList } from "./routes/sendList";
-import { getInstanceVenom } from "./lib/instanceVenomBot";
-import * as venom from 'venom-bot';
+import { Venom } from "./lib/instanceVenomBot";
 import { sendButton } from "./routes/sendButton";
 import { initializeOllama } from "./lib/ollama";
 import { Ollama } from "ollama";
+import fastifyWebsocket from "@fastify/websocket";
+import { getQrCode } from "./ws/getQrCode-websocket";
 
 const app: FastifyInstance = fastify({
     maxParamLength: 1048576
@@ -21,18 +22,21 @@ app.register(cors, {
     origin: '*',
 }),
 
+app.register(fastifyWebsocket)
+
 app.register(helloworld)
 
 app.register(sendText)
 app.register(sendList)
 app.register(sendButton)
 
-let wppVenom: venom.Whatsapp;
+app.register(getQrCode)
+
+let wppVenom: Venom = new Venom()
 let ollamaClient: Ollama;
 
 const startServer = async () => {
   try {
-    wppVenom = await getInstanceVenom()
     ollamaClient = await initializeOllama()
 
     app.listen({
@@ -51,8 +55,9 @@ startServer()
 
 export { wppVenom, ollamaClient }
 
-// adaptar o bot para enviar funções
-// ligar e desligar bot por usuários
-// salvar dados de usuários
+// adaptar o bot par bot por usuários
+// salvar dados dera enviar funções
+// ligar e desliga usuários
 // salvar preferências
 // detalhar quem é o bot
+// corrigir captura de qrcode
