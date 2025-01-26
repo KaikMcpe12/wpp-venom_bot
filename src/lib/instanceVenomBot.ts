@@ -4,6 +4,7 @@ import EventEmitter from 'events';
 
 export class Venom {
   private client: venom.Whatsapp | null = null;
+  public conected: boolean = false;
   public events: EventEmitter = new EventEmitter();
 
   public initializeVenom = async () => {
@@ -15,6 +16,8 @@ export class Venom {
           this.events.emit('qrCode', base64Qr);
         },
       });
+
+      this.conected = true;
   
       this.client.onMessage(async (message) => {
         console.log('New message of:', message);
@@ -24,6 +27,7 @@ export class Venom {
       return this.client;
     } catch (err: Error | any) {
       console.log(err)
+      this.events.emit('qrCodeError');
       throw new Error('Error initializing venom bot:', err);
     }
   };
@@ -34,6 +38,8 @@ export class Venom {
       this.client = null;
       console.log('Instância do Venom Bot encerrada.');
     }
+
+    this.conected = false;
   };
 
   // public getInstanceVenom = async () => { 
