@@ -10,6 +10,7 @@ import { initializeOllama } from "./lib/ollama";
 import { Ollama } from "ollama";
 import fastifyWebsocket from "@fastify/websocket";
 import { getQrCode } from "./ws/getQrCode-websocket";
+import websocketPlugin from "./plugin/websocket-plugin";
 
 const app: FastifyInstance = fastify({
     maxParamLength: 1048576
@@ -22,7 +23,7 @@ app.register(cors, {
     origin: '*',
 }),
 
-app.register(fastifyWebsocket)
+app.register(websocketPlugin)
 
 app.register(helloworld)
 
