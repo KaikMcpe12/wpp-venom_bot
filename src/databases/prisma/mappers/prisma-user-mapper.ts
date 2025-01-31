@@ -1,24 +1,25 @@
-import { User as RawUser } from '@prisma/client';
-import { User } from '../../../entities/user/user';
+import { Contact as RawContact } from '@prisma/client';
+import { Contact } from '../../../entities/user/user';
 
 export class PrismaNotificationMapper {
-  static toPrisma(user: User) {
+  static toPrisma(contact: Contact): RawContact {
     return {
-      id: user.id,
-      recipientId: user.name,
-      phoneNumber: user.phoneNumber,
-      category: user.botstatus,
-      content: user.createdAt,
+      id: contact.id,
+      name: contact.name,
+      phonenumber: contact.phonenumber,
+      botstatus: contact.botstatus,
+      updatedAt: contact.updatedAt,
+      createdAt: contact.createdAt,
     };
   }
 
-  static toDomain(raw: RawUser): User {
-    return new User(
+  static toDomain(raw: RawContact): Contact {
+    return new Contact(
       {
-        category: raw.category,
-        recipientId: raw.recipientId,
-        readAt: raw.readAt,
-        canceledAt: raw.canceledAt,
+        name: raw.name,
+        phonenumber: raw.phonenumber,
+        botstatus: raw.botstatus,
+        updatedAt: raw.updatedAt,
         createdAt: raw.createdAt,
       },
       raw.id,

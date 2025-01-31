@@ -10,23 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model Contact {
   id          String       @id
   name        String
-  phonenumber String
+  phonenumber String       @unique
   botstatus   Boolean
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  preference  preference[]
+  preference  Preference[]
 
   @@index([phonenumber])
 }
 
-model preference {
-  id     String @id
-  userId String
-  preferences  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user   User   @relation(fields: [userId], references: [id])
+model Preference {
+  id          String   @id
+  userId      String
+  preferences String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  user        Contact  @relation(fields: [userId], references: [id])
 }

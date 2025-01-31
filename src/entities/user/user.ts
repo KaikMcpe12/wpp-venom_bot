@@ -10,7 +10,7 @@ export interface UserProps {
     // preferences: preferences[]
 }
 
-export class User{
+export class Contact {
     private _id: string
     private props: UserProps
 
@@ -36,6 +36,14 @@ export class User{
 
     public get name(): string {
         return this.props.name;
+    }
+
+    public set phonenumber(phonenumber: string) {
+        this.props.phonenumber = phonenumber;
+    }
+
+    public get phonenumber(): string {
+        return this.props.phonenumber;
     }
 
     public turnoffbot() {

@@ -8,7 +8,6 @@ import { Venom } from "./lib/instanceVenomBot";
 import { sendButton } from "./routes/sendButton";
 import { initializeOllama } from "./lib/ollama";
 import { Ollama } from "ollama";
-import fastifyWebsocket from "@fastify/websocket";
 import { getQrCode } from "./ws/getQrCode-websocket";
 import websocketPlugin from "./plugin/websocket-plugin";
 
@@ -57,8 +56,8 @@ startServer()
 export { wppVenom, ollamaClient }
 
 // adaptar o bot par bot por usuários
+// ligar repositório a controllers
 // salvar dados dera enviar funções
 // ligar e desliga usuários
 // salvar preferências
-// detalhar quem é o bot
 // corrigir captura de qrcode
