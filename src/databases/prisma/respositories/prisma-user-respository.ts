@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { ContactRepository } from "../../../repositories/contactRepository";
 import { PrismaNotificationMapper } from "../mappers/prisma-user-mapper";
-import { Contact } from "../../../entities/user/user";
+import { Contact } from "../../../entities/contact/contact";
 
 export class PrismaContactRepository implements ContactRepository {
     constructor(private prisma: PrismaClient) {}
@@ -34,12 +34,20 @@ export class PrismaContactRepository implements ContactRepository {
         return PrismaNotificationMapper.toDomain(contact);
     }
 
-    async create(contact: Contact): Promise<void> {
+    async listAll(): Promise<Contact[]> {
+        const contacts = await this.prisma.contact.findMany();
+
+        return contacts.map(PrismaNotificationMapper.toDomain);
+    }
+
+    async create(contact: Contact): Promise<Contact> {
         const raw = PrismaNotificationMapper.toPrisma(contact);
 
-        await this.prisma.contact.create({
+        const response = await this.prisma.contact.create({
             data: raw
         });
+
+        return PrismaNotificationMapper.toDomain(response);
     }
 
     async save(contact: Contact): Promise<void> {

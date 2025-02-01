@@ -1,16 +1,7 @@
-import { ollamaClient } from "../server";
-import { loadDataContextService } from "../services/loadDataContextService";
+import { IAiService } from "../ai/interface/IAiService";
 
-export async function sendMessageOllamaController(message: string){
-    const context = await loadDataContextService()
+export async function sendMessageAiController(message: string, aiService: IAiService){
+    const response = await aiService.chat(message)
 
-    const response = await ollamaClient.chat({
-        model: 'llama3.2:1b',
-        messages: [
-            { role: 'system', content: context },
-            { role: 'user', content: message },
-        ]
-    })
-
-    return response.message.content
+    return response.message
 }

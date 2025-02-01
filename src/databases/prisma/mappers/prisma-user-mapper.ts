@@ -1,5 +1,5 @@
 import { Contact as RawContact } from '@prisma/client';
-import { Contact } from '../../../entities/user/user';
+import { Contact } from '../../../entities/contact/contact';
 
 export class PrismaNotificationMapper {
   static toPrisma(contact: Contact): RawContact {

@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto"
 import { Replace } from "../../helpers/Replace"
 
-export interface UserProps {
+export interface ContactProps {
     name: string,
     phonenumber: string,
     botstatus: boolean,
@@ -12,15 +12,16 @@ export interface UserProps {
 
 export class Contact {
     private _id: string
-    private props: UserProps
+    private props: ContactProps
 
     constructor(
-        props: Replace<UserProps, { updatedAt?: Date, createdAt?: Date }>,
+        props: Replace<ContactProps, { updatedAt?: Date, createdAt?: Date, botstatus?: boolean, }>,
         id?: string
     ){
         this._id = id ?? randomUUID()
         this.props = {
             ...props,
+            botstatus: props.botstatus ?? true,
             createdAt: props.createdAt ?? new Date(),
             updatedAt: props.updatedAt ?? new Date()
         }
