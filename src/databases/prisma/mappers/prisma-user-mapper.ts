@@ -1,7 +1,7 @@
 import { Contact as RawContact } from '@prisma/client';
 import { Contact } from '../../../entities/contact/contact';
 
-export class PrismaNotificationMapper {
+export class PrismaContactMapper {
   static toPrisma(contact: Contact): RawContact {
     return {
       id: contact.id,

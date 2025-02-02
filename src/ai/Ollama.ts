@@ -9,7 +9,7 @@ export class OllamaService {
         });
     
         (async () => {
-            await this.ollamaClient.create({ model: 'llama3.2:1b', modelfile }) // não sei pq não está tipado 'modefile', mas precisa passar 
+            await this.ollamaClient.create({ model: 'llama3.2:1b' }) // não sei pq não está tipado 'modefile', mas precisa passar 
             // ¯\_(ツ)_/¯
         })();
     }

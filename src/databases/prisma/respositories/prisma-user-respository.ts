@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { ContactRepository } from "../../../repositories/contactRepository";
-import { PrismaNotificationMapper } from "../mappers/prisma-user-mapper";
+import { PrismaContactMapper } from "../mappers/prisma-user-mapper";
 import { Contact } from "../../../entities/contact/contact";
 
 export class PrismaContactRepository implements ContactRepository {
@@ -17,7 +17,7 @@ export class PrismaContactRepository implements ContactRepository {
             return null;
         }
 
-        return PrismaNotificationMapper.toDomain(contact);
+        return PrismaContactMapper.toDomain(contact);
     }
 
     async findByPhoneNumber(phone: string): Promise<Contact | null> {
@@ -31,27 +31,27 @@ export class PrismaContactRepository implements ContactRepository {
             return null;
         }
 
-        return PrismaNotificationMapper.toDomain(contact);
+        return PrismaContactMapper.toDomain(contact);
     }
 
     async listAll(): Promise<Contact[]> {
         const contacts = await this.prisma.contact.findMany();
 
-        return contacts.map(PrismaNotificationMapper.toDomain);
+        return contacts.map(PrismaContactMapper.toDomain);
     }
 
     async create(contact: Contact): Promise<Contact> {
-        const raw = PrismaNotificationMapper.toPrisma(contact);
+        const raw = PrismaContactMapper.toPrisma(contact);
 
         const response = await this.prisma.contact.create({
             data: raw
         });
 
-        return PrismaNotificationMapper.toDomain(response);
+        return PrismaContactMapper.toDomain(response);
     }
 
     async save(contact: Contact): Promise<void> {
-        const raw = PrismaNotificationMapper.toPrisma(contact);
+        const raw = PrismaContactMapper.toPrisma(contact);
 
         await this.prisma.contact.update({
             where: {
