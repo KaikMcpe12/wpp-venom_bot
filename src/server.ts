@@ -7,7 +7,6 @@ import { sendList } from "./routes/sendList";
 import { Venom } from "./lib/instanceVenomBot";
 import { sendButton } from "./routes/sendButton";
 import { initializeAi } from "./lib/ai";
-import { Ollama } from "ollama";
 import { getQrCode } from "./ws/getQrCode-websocket";
 import websocketPlugin from "./plugin/websocket-plugin";
 import { IAiService } from "./ai/interface/IAiService";
@@ -57,8 +56,6 @@ startServer()
 export { wppVenom, aiClient }
 
 // adaptar o bot par bot por usuários
-// ligar repositório a controllers
 // salvar dados dera enviar funções
 // ligar e desliga usuários
 // salvar preferências
-// corrigir captura de qrcode

@@ -19,8 +19,10 @@ describe('Create Contact', () => {
         const prismaContactRepository = new InMemoryContactRepository();
         const createContact = new CreateContact(prismaContactRepository);
 
-        await expect(createContact.execute(makeContact())).resolves.not.toThrow();
-        await expect(createContact.execute(makeContact())).rejects.toThrow(new Error("Contact already exists"));
+        const phonenumber = '9999999999999';
+
+        await expect(createContact.execute(makeContact({phonenumber}))).resolves.not.toThrow();
+        await expect(createContact.execute(makeContact({phonenumber}))).rejects.toThrow(new Error("Contact already exists"));
     })
 
     it('should throw an error when trying to create a contact with invalid data', async () => {

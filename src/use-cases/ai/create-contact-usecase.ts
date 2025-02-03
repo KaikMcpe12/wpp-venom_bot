@@ -9,7 +9,7 @@ interface IRequestUser {
 export default class CreateContact {
     constructor(private contactRepository: ContactRepository){}
 
-    async execute(requestUser: IRequestUser): Promise<Contact> {
+    public async execute(requestUser: IRequestUser): Promise<Contact> {
         const { name, phonenumber } = requestUser;
     
         if(!name || !phonenumber) throw new Error("Invalid user data");
