@@ -8,7 +8,7 @@ interface IBody {
 export async function sendMessageAiController(body: IBody, aiService: IAiService){
     const message = `${body.phonenumber}: ${body.message.trim() || 'Nenhum texto enviado'}`
 
-    const response = await aiService.chat(message, [])
+    const response = await aiService.chat(message)
 
     return response.message
 }

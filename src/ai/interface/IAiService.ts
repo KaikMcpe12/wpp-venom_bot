@@ -24,7 +24,7 @@ interface ITool {
 
 export interface IAiRequest {
     function: ITool;
-    functionImplementation: () => Promise<any>;
+    functionImplementation: (request: any) => Promise<any>;
 }
 
 export interface AvailableFunctions {
@@ -33,5 +33,5 @@ export interface AvailableFunctions {
 
 export interface IAiService {
     context: string;
-    chat: (message: string, tools: IAiRequest[]) => Promise<{ message: string }>
+    chat: (message: string) => Promise<{ message: string }>
 }

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { OllamaService } from '../ai/Ollama';
-import { loadDataContextService } from "../services/loadDataContextService";
+import { IAiRequest } from '../ai/interface/IAiService';
 
 const systemContent = fs.readFileSync('data/system.txt', 'utf-8');
 
@@ -9,11 +9,8 @@ FROM llama3.2:1b
 SYSTEM "${systemContent.replace(/\n/g, '\\n')}"
 `
 
-export async function initializeAi(){
-    const context = await loadDataContextService()
-
-    const ollamaClient = new OllamaService(context, modelfile)
+export async function initializeAi(tools: IAiRequest[] = []): Promise<OllamaService> {
+    const ollamaClient = new OllamaService(modelfile, tools)
 
     return ollamaClient
-    // const res = await ollamaClient.chat({ model: 'llama3.2:1b', messages: [{ role: 'user', content: 'Por que o céu é azul' }] })
 }
