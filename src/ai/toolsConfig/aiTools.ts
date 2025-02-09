@@ -2,7 +2,7 @@ export const createContactTool = {
     type: 'function',
     function: {
         name: 'createContact',
-        description: 'Função responsável por criar um novo contato/usuário no banco de dados caso ele não exista. Deve ser executada sempre que um usuário que não está no banco de dados mande uma mensagem. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
+        description: 'Função responsável por criar um novo contato/usuário no banco de dados caso ele não exista. Deve ser executada sempre que um usuário que não está no banco de dados mande uma mensagem, após isso siga o fluxo da mensagem. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
         parameters: {
             type: 'object',
             required: ['name', 'phonenumber'],

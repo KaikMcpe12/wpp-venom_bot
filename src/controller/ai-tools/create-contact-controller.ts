@@ -1,8 +1,9 @@
 import { PrismaContactRepository } from "../../databases/prisma/respositories/prisma-user-respository";
 import { prismaClient } from "../../lib/prisma";
 import CreateContact from "../../use-cases/ai/create-contact-usecase";
-import { generateContextService } from "../../services/generate-context-service";
+import { generateUserContextService } from "../../services/generate-user-context-service";
 import { AiContactMapper, IRawContact } from "../../ai/mappers/ai-contact-mapper";
+import { aiClient } from "../../server";
 
 interface IRequestUser {
     name: string;
@@ -16,7 +17,7 @@ export async function createContactController(requestUser: IRequestUser): Promis
 
     const contact = await createContact.execute(requestUser)
 
-    await generateContextService()
+    await generateUserContextService(aiClient, prisma)
 
     return AiContactMapper.toRaw(contact)
 }

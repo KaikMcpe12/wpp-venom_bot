@@ -1,7 +1,9 @@
+import { makeContact } from "../../test/factory/make-contact";
 import { InMemoryContactRepository } from "../../test/repository/in-memory-contact-repository";
 import { sendMessageAiController } from "../controller/sendMessageAiController";
 import { Contact } from "../entities/contact/contact";
 import { initializeAi } from "../lib/ai"
+import { generateUserContextService } from "../services/generate-user-context-service";
 import CreateContact from "../use-cases/ai/create-contact-usecase";
 import { AiContactMapper } from "./mappers/ai-contact-mapper";
 import { createContactTool } from "./toolsConfig/aiTools";
@@ -25,22 +27,45 @@ describe('Test ia chat', () => {
     //     expect(response).toBeTruthy()
     // }, 60000)
 
-    it('should ia chat create contact', async () => {
+    // it('should ia chat create contact', async () => {
+    //     const inMemory = new InMemoryContactRepository();
+    //     const createContact = new CreateContact(inMemory);
+
+    //     const functionImplementation = async (request: IRequestUser) => AiContactMapper.toRaw(await createContact.execute(request)) 
+
+    //     const aiClient = await initializeAi([{ function: createContactTool, functionImplementation }])
+
+    //     const body = {
+    //         phonenumber: '999999999999',
+    //         message: 'Crie um novo usuário chamado August com número de telefone 999999999999',
+    //     }
+
+    //     const response = await sendMessageAiController(body, aiClient)
+        
+    //     generateUserContextService(aiClient, inMemory)
+        
+    //     expect(inMemory.contacts[0]).toBeInstanceOf(Contact)
+    // }, 60000)
+
+    it('should test ia know contact', async () => {
         const inMemory = new InMemoryContactRepository();
-        const createContact = new CreateContact(inMemory);
 
-        const functionImplementation = async (request: IRequestUser) => AiContactMapper.toRaw(await createContact.execute(request)) 
+        inMemory.create(makeContact({phonenumber:'12345678901', name:'Carlos'}))
+        inMemory.create(makeContact({phonenumber:'12345678902', name:'Jose'}))
 
-        const aiClient = await initializeAi([{ function: createContactTool, functionImplementation }])
+        const aiClient = await initializeAi()
+
+        await generateUserContextService(aiClient, inMemory)
 
         const body = {
-            phonenumber: '999999999999',
-            message: 'Crie um novo usuário chamado August com número de telefone 999999999999',
+            phonenumber: '12345678901',
+            message: 'Você sabe meu nome? Qual? Veja a lista de contatos.',
         }
 
         const response = await sendMessageAiController(body, aiClient)
+
         console.log(response)
-        
-        expect(inMemory.contacts[0]).toBeInstanceOf(Contact)
+
+        expect(response).toContain('Augusto')
     }, 60000)
 })

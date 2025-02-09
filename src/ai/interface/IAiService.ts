@@ -1,3 +1,5 @@
+import { Ollama } from "ollama";
+
 interface IFunctionParameter {
     type: string;
     description: string;
@@ -31,7 +33,12 @@ export interface AvailableFunctions {
     [key: string]: (args: any) => Promise<void>;
 }
 
+export interface IArgsMessage {
+    role: string, 
+    content: any,
+}
+
 export interface IAiService {
     context: string;
-    chat: (message: string) => Promise<{ message: string }>
+    chat: (message: string, argsMessages?: IArgsMessage[]) => Promise<{ message: string }>
 }

@@ -1,7 +1,7 @@
-import { Message, Ollama, ToolCall } from 'ollama'
-import { AvailableFunctions, IAiRequest } from './interface/IAiService';
+import { Message, Ollama } from 'ollama'
+import { AvailableFunctions, IAiRequest, IAiService, IArgsMessage } from './interface/IAiService';
 
-export class OllamaService {
+export class OllamaService implements IAiService {
     private ollamaClient!: Ollama;
     private availableFunctions!: AvailableFunctions;
 
@@ -16,7 +16,7 @@ export class OllamaService {
         }, {});
     }
 
-    public async chat(message: string, argsMessages?: { role: string, content: any }[]): Promise<{ message: string}> {
+    public async chat(message: string, argsMessages?: IArgsMessage[]): Promise<{ message: string}> {
         const response = await this.ollamaClient.chat({
             model: 'llama3.2:1b',
             messages: [
@@ -26,11 +26,7 @@ export class OllamaService {
             ],
             tools: this._tools.map(tool => tool.function)
         })
-        console.log([
-            { role: 'system', content: this._context },
-            { role: 'user', content: message },
-            ...(argsMessages || [])
-        ])
+        console.log(this._context)
         
         if (response.message.tool_calls) {
             return await this.executeFunction(response.message, message)
@@ -45,7 +41,6 @@ export class OllamaService {
         for (const tool of message.tool_calls!) {
             const functionToCall = this.availableFunctions[tool.function.name];
             if (functionToCall) {
-                // console.log('Arguments:', tool.function.arguments);
                 const output = await functionToCall(tool.function.arguments);
 
                 const response = await this.chat(requestUser, [
