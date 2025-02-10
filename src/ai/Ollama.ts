@@ -20,13 +20,17 @@ export class OllamaService implements IAiService {
         const response = await this.ollamaClient.chat({
             model: 'llama3.2:1b',
             messages: [
-                { role: 'system', content: this._context },
+                // { role: 'system', content: this._context },
                 { role: 'user', content: message },
                 ...(argsMessages || [])
             ],
-            tools: this._tools.map(tool => tool.function)
+            tools: this._tools.map(tool => tool.function),
+            options: {
+                temperature: 0.7,
+            },
         })
-        console.log(this._context)
+        console.log({ role: 'user', content: message },
+            ...(argsMessages || []))
         
         if (response.message.tool_calls) {
             return await this.executeFunction(response.message, message)

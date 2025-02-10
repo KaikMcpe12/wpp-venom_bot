@@ -1,5 +1,5 @@
 import * as venom from 'venom-bot';
-import { processMessageService } from '../services/processMessage';
+import { handlerMessageVenomBot } from '../services/processMessage';
 import EventEmitter from 'events';
 
 export class Venom {
@@ -19,7 +19,7 @@ export class Venom {
   
       this._client.onMessage(async (message) => {
         console.log('New message of:', message);
-        await processMessageService(this._client!, message)
+        await handlerMessageVenomBot(this._client!, message)
       });
     } catch (err: Error | any) {
       console.log(err)

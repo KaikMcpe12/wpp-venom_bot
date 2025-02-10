@@ -1,0 +1,19 @@
+{
+  "contacts": {
+    "12122121212": "Pedro"
+  },
+  "preferences": {
+    "12122121212": {
+      "language": "en",
+      "model": "llama3.2:1b",
+      "temperature": 0.9,
+      "systemPrompt": "You are a friendly assistant that likes to use emojis.",
+      "notifications": true,
+      "timezone": "America/Sao_Paulo",
+      "topics": [
+        "tecnologia",
+        "música"
+      ]
+    }
+  }
+}

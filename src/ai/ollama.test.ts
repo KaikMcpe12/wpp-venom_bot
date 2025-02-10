@@ -1,10 +1,11 @@
 import { makeContact } from "../../test/factory/make-contact";
 import { InMemoryContactRepository } from "../../test/repository/in-memory-contact-repository";
-import { sendMessageAiController } from "../controller/sendMessageAiController";
+import { sendMessageAi } from "../controller/sendMessageAi";
 import { Contact } from "../entities/contact/contact";
 import { initializeAi } from "../lib/ai"
 import { generateUserContextService } from "../services/generate-user-context-service";
 import CreateContact from "../use-cases/ai/create-contact-usecase";
+import { FindContactByPhoneNumber } from "../use-cases/ai/find-contact-phonenumber-usecase";
 import { AiContactMapper } from "./mappers/ai-contact-mapper";
 import { createContactTool } from "./toolsConfig/aiTools";
 
@@ -49,20 +50,21 @@ describe('Test ia chat', () => {
 
     it('should test ia know contact', async () => {
         const inMemory = new InMemoryContactRepository();
+        inMemory.create(makeContact({phonenumber:'(12)12212-1212', name:'Augusto'}))
 
-        inMemory.create(makeContact({phonenumber:'12345678901', name:'Carlos'}))
-        inMemory.create(makeContact({phonenumber:'12345678902', name:'Jose'}))
+        const findContact = new FindContactByPhoneNumber(inMemory)
+        const contact = await findContact.execute('(12)12212-121')
 
         const aiClient = await initializeAi()
 
         await generateUserContextService(aiClient, inMemory)
 
         const body = {
-            phonenumber: '12345678901',
-            message: 'Você sabe meu nome? Qual? Veja a lista de contatos.',
+            name: contact ? `${contact?.name} ${contact?.phonenumber}` : 'Contato sem nome',
+            message: 'Você sabe meu nome? Qual?',
         }
 
-        const response = await sendMessageAiController(body, aiClient)
+        const response = await sendMessageAi(body, aiClient)
 
         console.log(response)
 
