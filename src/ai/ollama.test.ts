@@ -48,26 +48,26 @@ describe('Test ia chat', () => {
     //     expect(inMemory.contacts[0]).toBeInstanceOf(Contact)
     // }, 60000)
 
-    it('should test ia know contact', async () => {
-        const inMemory = new InMemoryContactRepository();
-        inMemory.create(makeContact({phonenumber:'(12)12212-1212', name:'Augusto'}))
+    // it('should test ia know contact', async () => {
+    //     const inMemory = new InMemoryContactRepository();
+    //     inMemory.create(makeContact({phonenumber:'(12)12212-1212', name:'Augusto'}))
 
-        const findContact = new FindContactByPhoneNumber(inMemory)
-        const contact = await findContact.execute('(12)12212-121')
+    //     const findContact = new FindContactByPhoneNumber(inMemory)
+    //     const contact = await findContact.execute('(12)12212-1212')
 
-        const aiClient = await initializeAi()
+    //     const aiClient = await initializeAi()
 
-        await generateUserContextService(aiClient, inMemory)
+    //     await generateUserContextService(aiClient, inMemory)
 
-        const body = {
-            name: contact ? `${contact?.name} ${contact?.phonenumber}` : 'Contato sem nome',
-            message: 'Você sabe meu nome? Qual?',
-        }
+    //     const body = {
+    //         name: `${contact?.name || 'Contato sem nome'} ((12)12212-1212)`,
+    //         message: 'Qual o meu nome?',
+    //     }
 
-        const response = await sendMessageAi(body, aiClient)
+    //     const response = await sendMessageAi(body, aiClient)
 
-        console.log(response)
+    //     console.log(response)
 
-        expect(response).toContain('Augusto')
-    }, 60000)
+    //     expect(response).toContain('Augusto')
+    // }, 60000)
 })

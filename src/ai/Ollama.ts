@@ -6,9 +6,7 @@ export class OllamaService implements IAiService {
     private availableFunctions!: AvailableFunctions;
 
     constructor (private _context: string, private _tools: IAiRequest[] = []) {
-        this.ollamaClient = new Ollama({
-            host: 'http://127.0.0.1:11434',
-        });
+        this.ollamaClient = new Ollama();
 
         this.availableFunctions = this._tools.reduce((acc: AvailableFunctions, tool) => {
             acc[tool.function.function.name] = tool.functionImplementation;
@@ -20,17 +18,19 @@ export class OllamaService implements IAiService {
         const response = await this.ollamaClient.chat({
             model: 'llama3.2:1b',
             messages: [
-                // { role: 'system', content: this._context },
+                { role: 'system', content: `FROM llama3.2:1b
+        SYSTEM "${this._context}"` },
                 { role: 'user', content: message },
                 ...(argsMessages || [])
             ],
             tools: this._tools.map(tool => tool.function),
             options: {
                 temperature: 0.7,
+                top_k: 40,
+                top_p: 0.9
             },
         })
-        console.log({ role: 'user', content: message },
-            ...(argsMessages || []))
+        console.log({ role: 'user', content: message })
         
         if (response.message.tool_calls) {
             return await this.executeFunction(response.message, message)

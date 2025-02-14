@@ -175,7 +175,7 @@ async function main() {
   const manager = new ContactManager();
   
   // Adiciona um contato com preferências padrão
-  manager.addContact('(12)12212-1212', 'Pedro');
+  manager.addContact('(12)12212-1212', 'Contato sem nome');
   
   // Atualiza preferências específicas
   manager.updatePreferences('(12)12212-1212', {

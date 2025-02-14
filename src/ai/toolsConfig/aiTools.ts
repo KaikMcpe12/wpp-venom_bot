@@ -19,3 +19,39 @@ export const createContactTool = {
         }
     }
 }
+
+export const enableContactTool = {
+    type: 'function',
+    function: {
+        name: 'enableContact',
+        description: 'Habilite usuário que estão desabilitados para conversar novamente. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
+        parameters: {
+            type: 'object',
+            required: ['phonenumber'],
+            properties: {
+                name: { 
+                    type: 'string', 
+                    description: 'O número de telefone enviado na mensagem do usuário para habilitar.' 
+                },
+            }
+        }
+    }
+}
+
+export const disableContactTool = {
+    type: 'function',
+    function: {
+        name: 'disanleContact',
+        description: 'Desabilite usuário para que não possa fala-lo com ele. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
+        parameters: {
+            type: 'object',
+            required: ['phonenumber'],
+            properties: {
+                name: { 
+                    type: 'string', 
+                    description: 'O número de telefone enviado na mensagem do usuário para desabilitar-lo.' 
+                },
+            }
+        }
+    }
+}

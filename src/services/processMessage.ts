@@ -7,7 +7,7 @@ export async function handlerMessageVenomBot(clientVenom: venom.Whatsapp, messag
     if(message.body && !message.isGroupMsg){
         const phonenumber = message.from.split('@')[0]
         const contact = await findContactByPhonenumberController(phonenumber)
-        const body = { name: contact ? `${contact?.name} ${contact?.phonenumber}` : 'Contato sem nome', message: message.body  }
+        const body = { name: `${contact?.name || 'Contato sem nome'} (${phonenumber})`, message: message.body  }
 
         const reply = await sendMessageAi(body, aiClient)
 
