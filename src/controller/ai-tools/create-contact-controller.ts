@@ -1,6 +1,6 @@
 import { PrismaContactRepository } from "../../databases/prisma/respositories/prisma-user-respository";
 import { prismaClient } from "../../lib/prisma";
-import CreateContact from "../../use-cases/ai/create-contact-usecase";
+import CreateContact from "../../use-cases/ai/contact/create-contact-usecase";
 import { generateUserContextService } from "../../services/generate-user-context-service";
 import { AiContactMapper, IRawContact } from "../../ai/mappers/ai-contact-mapper";
 import { aiClient } from "../../server";

@@ -1,5 +1,5 @@
-import { Contact } from "../../entities/contact/contact";
-import { ContactRepository } from "../../repositories/contactRepository";
+import { Contact } from "../../../entities/contact/contact";
+import { ContactRepository } from "../../../repositories/contactRepository";
 
 export default class DisableContact {
     constructor(private contactRepository: ContactRepository){}

@@ -1,5 +1,5 @@
-import { makeContact } from "../../../test/factory/make-contact";
-import { InMemoryContactRepository } from "../../../test/repository/in-memory-contact-repository";
+import { makeContact } from "../../../../test/factory/make-contact";
+import { InMemoryContactRepository } from "../../../../test/repository/in-memory-contact-repository";
 import EnableContact from "./enable-contact-usecase"
 
 describe('Enable botstatus', () => {

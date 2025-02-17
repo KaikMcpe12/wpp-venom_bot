@@ -4,8 +4,8 @@ import { sendMessageAi } from "../controller/sendMessageAi";
 import { Contact } from "../entities/contact/contact";
 import { initializeAi } from "../lib/ai"
 import { generateUserContextService } from "../services/generate-user-context-service";
-import CreateContact from "../use-cases/ai/create-contact-usecase";
-import { FindContactByPhoneNumber } from "../use-cases/ai/find-contact-phonenumber-usecase";
+import CreateContact from "../use-cases/ai/contact/create-contact-usecase";
+import { FindContactByPhoneNumber } from "../use-cases/ai/contact/find-contact-phonenumber-usecase";
 import { AiContactMapper } from "./mappers/ai-contact-mapper";
 import { createContactTool } from "./toolsConfig/aiTools";
 

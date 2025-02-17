@@ -10,6 +10,13 @@ export class PrismaContactRepository implements ContactRepository {
         const contact = await this.prisma.contact.findUnique({
             where: {
                 id: contactId
+            },
+            include: {
+                preference: {
+                    // select: {
+                    //     preferences: true
+                    // }
+                }
             }
         });
 
@@ -24,6 +31,13 @@ export class PrismaContactRepository implements ContactRepository {
         const contact = await this.prisma.contact.findUnique({
             where: {
                 phonenumber: phone
+            },
+            include: {
+                preference: {
+                    select: {
+                        preferences: true
+                    }
+                }
             }
         });
 

@@ -1,7 +1,7 @@
 import { PrismaContactRepository } from "../../databases/prisma/respositories/prisma-user-respository";
 import { prismaClient } from "../../lib/prisma";
-import EnableContact from "../../use-cases/ai/enable-contact-usecase";
-import { FindContactByPhoneNumber } from "../../use-cases/ai/find-contact-phonenumber-usecase";
+import EnableContact from "../../use-cases/ai/contact/enable-contact-usecase";
+import { FindContactByPhoneNumber } from "../../use-cases/ai/contact/find-contact-phonenumber-usecase";
 
 export async function enableContactController(phonenumber: string): Promise<void> {
     const prismaRepository = new PrismaContactRepository(prismaClient);

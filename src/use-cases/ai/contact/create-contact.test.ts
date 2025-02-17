@@ -1,7 +1,7 @@
 import CreateContact from "./create-contact-usecase";
-import { InMemoryContactRepository } from "../../../test/repository/in-memory-contact-repository";
-import { makeContact } from "../../../test/factory/make-contact";
-import { Contact } from "../../entities/contact/contact";
+import { InMemoryContactRepository } from "../../../../test/repository/in-memory-contact-repository";
+import { makeContact } from "../../../../test/factory/make-contact";
+import { Contact } from "../../../entities/contact/contact";
 
 describe('Create Contact', () => {
     it('should create a new contact', async () => {

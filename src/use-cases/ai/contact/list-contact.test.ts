@@ -1,6 +1,6 @@
-import { makeContact } from "../../../test/factory/make-contact";
-import { InMemoryContactRepository } from "../../../test/repository/in-memory-contact-repository";
-import { Contact } from "../../entities/contact/contact";
+import { makeContact } from "../../../../test/factory/make-contact";
+import { InMemoryContactRepository } from "../../../../test/repository/in-memory-contact-repository";
+import { Contact } from "../../../entities/contact/contact";
 import ListContacts from "./list-contacts-usecase";
 
 describe('List Contact', () => {

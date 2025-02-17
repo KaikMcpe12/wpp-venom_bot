@@ -1,5 +1,6 @@
 import { randomUUID } from "crypto"
 import { Replace } from "../../helpers/Replace"
+import { Preference } from "../preference/preference"
 
 export interface ContactProps {
     name: string,
@@ -7,12 +8,13 @@ export interface ContactProps {
     botstatus: boolean,
     updatedAt: Date,
     createdAt: Date
-    // preferences: preferences[]
+    preferences?: string[]
 }
 
 export class Contact {
-    private _id: string
-    private props: ContactProps
+    private _id: string;
+    private props: ContactProps;
+    private _preferences: Preference[] = [];
 
     constructor(
         props: Replace<ContactProps, { updatedAt?: Date, createdAt?: Date, botstatus?: boolean, }>,
@@ -65,5 +67,13 @@ export class Contact {
 
     public get createdAt(): Date {
         return this.props.createdAt;
+    }
+
+    public get preferences(): string[] {
+        return this._preferences.map(preference => preference.content);
+    }
+
+    public set preferences(preference: string[]) {
+        this._preferences = preference.map(content => new Preference({ content }, this._id));
     }
 }

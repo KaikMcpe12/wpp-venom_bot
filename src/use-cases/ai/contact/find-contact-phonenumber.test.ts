@@ -1,5 +1,5 @@
-import { makeContact } from "../../../test/factory/make-contact";
-import { InMemoryContactRepository } from "../../../test/repository/in-memory-contact-repository";
+import { makeContact } from "../../../../test/factory/make-contact";
+import { InMemoryContactRepository } from "../../../../test/repository/in-memory-contact-repository";
 import { FindContactByPhoneNumber } from "./find-contact-phonenumber-usecase";
 
 describe('Find contact by phone number', () => {
