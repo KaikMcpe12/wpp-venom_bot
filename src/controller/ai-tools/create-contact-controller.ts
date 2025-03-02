@@ -1,4 +1,4 @@
-import { PrismaContactRepository } from "../../databases/prisma/respositories/prisma-user-respository";
+import { PrismaContactRepository } from "../../databases/prisma/respositories/prisma-contact-respository";
 import { prismaClient } from "../../lib/prisma";
 import CreateContact from "../../use-cases/ai/contact/create-contact-usecase";
 import { generateUserContextService } from "../../services/generate-user-context-service";

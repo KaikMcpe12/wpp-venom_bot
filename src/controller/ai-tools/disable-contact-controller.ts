@@ -1,4 +1,4 @@
-import { PrismaContactRepository } from "../../databases/prisma/respositories/prisma-user-respository";
+import { PrismaContactRepository } from "../../databases/prisma/respositories/prisma-contact-respository";
 import { prismaClient } from "../../lib/prisma";
 import DisableContact from "../../use-cases/ai/contact/disable-contact-usecase";
 import { FindContactByPhoneNumber } from "../../use-cases/ai/contact/find-contact-phonenumber-usecase";

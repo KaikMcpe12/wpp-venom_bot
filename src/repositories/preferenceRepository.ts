@@ -1,4 +1,7 @@
+import { Preference } from "../entities/preference/preference";
+
 export abstract class PreferenceRepository {
-    abstract findByUserId(userId: string): Preference
-    abstract createPreference(preference: Preference): Preference
+    abstract findById(userId: string): Promise<Preference | null>
+    abstract createPreference(preference: Preference): Promise<Preference | null>
+    abstract save(preference: Preference): Promise<void>
 }

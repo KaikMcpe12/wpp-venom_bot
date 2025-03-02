@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { Replace } from "../../helpers/Replace";
 
 export interface PreferenceProps {
@@ -8,11 +9,14 @@ export interface PreferenceProps {
 
 export class Preference {
     private propsPreferences: PreferenceProps
+    private _id: string
 
     constructor(
         propsPreferences: Replace<PreferenceProps, { updatedAt?: Date, createdAt?: Date }>,
-        private _userId: string
+        private _userId: string,
+        id?: string
     ){
+        this._id = id ?? randomUUID()
         this.propsPreferences = {
             ...propsPreferences,
             createdAt: propsPreferences.createdAt ?? new Date(),
@@ -21,6 +25,10 @@ export class Preference {
     }
 
     public get id(): string {
+        return this._id
+    }
+
+    public get userId(): string {
         return this._userId
     }
 

@@ -73,7 +73,8 @@ export class Contact {
         return this._preferences.map(preference => preference.content);
     }
 
-    public set preferences(preference: string[]) {
-        this._preferences = preference.map(content => new Preference({ content }, this._id));
+    public set preferences(preferences: Preference[]) {
+        // this._preferences = preferences.map(content => new Preference({ content }, this._id));
+        this._preferences = preferences;
     }
 }
