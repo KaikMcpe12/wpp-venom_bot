@@ -20,7 +20,7 @@ app.setValidatorCompiler(validatorCompiler)
 
 app.register(cors, {
     origin: '*',
-}),
+})
 
 app.register(websocketPlugin)
 
@@ -32,7 +32,7 @@ app.register(sendButton)
 
 app.register(getQrCode)
 
-let wppVenom: Venom = new Venom()
+const wppVenom: Venom = new Venom()
 let aiClient: IAiService;
 
 const startServer = async () => {

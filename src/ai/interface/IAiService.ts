@@ -1,5 +1,3 @@
-import { Ollama } from "ollama";
-
 interface IFunctionParameter {
     type: string;
     description: string;
@@ -35,7 +33,7 @@ export interface AvailableFunctions {
 
 export interface IArgsMessage {
     role: string, 
-    content: any,
+    content: string,
 }
 
 export interface IAiService {

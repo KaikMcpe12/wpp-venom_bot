@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import z, { number } from 'zod'
+import z from 'zod'
 import { sendTextController } from "../controller/sendTextController";
 
 export function sendText(app: FastifyInstance){

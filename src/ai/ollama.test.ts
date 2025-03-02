@@ -1,18 +1,18 @@
-import { makeContact } from "../../test/factory/make-contact";
-import { InMemoryContactRepository } from "../../test/repository/in-memory-contact-repository";
-import { sendMessageAi } from "../controller/sendMessageAi";
-import { Contact } from "../entities/contact/contact";
-import { initializeAi } from "../lib/ai"
-import { generateUserContextService } from "../services/generate-user-context-service";
-import CreateContact from "../use-cases/ai/contact/create-contact-usecase";
-import { FindContactByPhoneNumber } from "../use-cases/ai/contact/find-contact-phonenumber-usecase";
-import { AiContactMapper } from "./mappers/ai-contact-mapper";
-import { createContactTool } from "./toolsConfig/aiTools";
+// import { makeContact } from "../../test/factory/make-contact";
+// import { InMemoryContactRepository } from "../../test/repository/in-memory-contact-repository";
+// import { sendMessageAi } from "../controller/sendMessageAi";
+// import { Contact } from "../entities/contact/contact";
+// import { initializeAi } from "../lib/ai"
+// import { generateUserContextService } from "../services/generate-user-context-service";
+// import CreateContact from "../use-cases/ai/contact/create-contact-usecase";
+// import { FindContactByPhoneNumber } from "../use-cases/ai/contact/find-contact-phonenumber-usecase";
+// import { AiContactMapper } from "./mappers/ai-contact-mapper";
+// import { createContactTool } from "./toolsConfig/aiTools";
 
-interface IRequestUser {
-    name: string;
-    phonenumber: string;
-}
+// interface IRequestUser {
+//     name: string;
+//     phonenumber: string;
+// }
 
 describe('Test ia chat', () => {
     // it('should test normal ia chat', async () => {

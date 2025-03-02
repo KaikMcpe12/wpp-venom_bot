@@ -13,9 +13,9 @@ export class PrismaContactRepository implements ContactRepository {
             },
             include: {
                 preference: {
-                    // select: {
-                    //     preferences: true
-                    // }
+                    select: {
+                        preferences: true
+                    }
                 }
             }
         });
@@ -49,7 +49,15 @@ export class PrismaContactRepository implements ContactRepository {
     }
 
     async listAll(): Promise<Contact[]> {
-        const contacts = await this.prisma.contact.findMany();
+        const contacts = await this.prisma.contact.findMany({
+            include: {
+                preference: {
+                    select: {
+                        preferences: true
+                    }
+                }
+            }
+        });
 
         return contacts.map(PrismaContactMapper.toDomain);
     }

@@ -1,14 +1,15 @@
 import { Contact as IContact, Preference as IPreference } from '@prisma/client';
 import { Contact } from '../../../entities/contact/contact';
+import { Replace } from '../../../helpers/Replace';
 
-interface RawPreference extends Omit<IPreference, 'id' | 'userId' | 'createdAt' | 'updatedAt'> {}
+type RawPreference = Replace<IPreference, { id?: string, userId?: string, updatedAt?: Date, createdAt?: Date } >
 
 interface RawContact extends IContact {
-  preference: RawPreference[];
+  preference?: RawPreference[];
 }
 
 export class PrismaContactMapper {
-  static toPrisma(contact: Contact): RawContact {
+  static toPrisma(contact: Contact): IContact {
     return {
       id: contact.id,
       name: contact.name,
@@ -16,9 +17,6 @@ export class PrismaContactMapper {
       botstatus: contact.botstatus,
       updatedAt: contact.updatedAt,
       createdAt: contact.createdAt,
-      preference: contact.preferences.map(preference => ({
-        preferences: preference,
-      })),
     };
   }
 
@@ -30,7 +28,7 @@ export class PrismaContactMapper {
         botstatus: raw.botstatus,
         updatedAt: raw.updatedAt,
         createdAt: raw.createdAt,
-        preferences: raw.preference.map(preference => preference.preferences),
+        preferences: raw.preference && raw.preference.map(preference => preference.preferences),
       },
       raw.id,
     );

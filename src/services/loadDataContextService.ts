@@ -1,4 +1,4 @@
-import { readPDF } from "../lib/readPdf";
+// import { readPDF } from "../lib/readPdf";
 import fs from 'fs';
 
 export async function loadDataContextService() {

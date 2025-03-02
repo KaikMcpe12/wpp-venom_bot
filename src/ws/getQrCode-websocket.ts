@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import { wppVenom } from "../server";
 
 export function getQrCode(app: FastifyInstance){
-  app.get('/wpp/getqr', { websocket: true }, async (socket, req) => {    
+  app.get('/wpp/getqr', { websocket: true }, async (socket) => {    
     let isClient = true;
 
     await wppVenom.terminateVenom();
@@ -18,7 +18,9 @@ export function getQrCode(app: FastifyInstance){
 
     wppVenom.on('qrCodeError', () => {
       wppVenom.terminateVenom();
-      isClient && wppVenom.initializeVenom();
+      if (isClient) {
+        wppVenom.initializeVenom();
+      }
     })
 
     socket.on('close', () => {
