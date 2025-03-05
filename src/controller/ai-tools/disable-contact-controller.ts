@@ -1,18 +1,20 @@
-import { PrismaContactRepository } from "../../databases/prisma/respositories/prisma-contact-respository";
-import { prismaClient } from "../../lib/prisma";
-import DisableContact from "../../use-cases/ai/contact/disable-contact-usecase";
-import { FindContactByPhoneNumber } from "../../use-cases/ai/contact/find-contact-phonenumber-usecase";
+import { PrismaContactRepository } from '../../databases/prisma/respositories/prisma-contact-respository'
+import { prismaClient } from '../../lib/prisma'
+import DisableContact from '../../use-cases/ai/contact/disable-contact-usecase'
+import { FindContactByPhoneNumber } from '../../use-cases/ai/contact/find-contact-phonenumber-usecase'
 
-export async function disableContactController(phonenumber: string): Promise<void> {
-    const prismaRepository = new PrismaContactRepository(prismaClient);
-    const findPhonenumber = new FindContactByPhoneNumber(prismaRepository);
+export async function disableContactController(
+  phonenumber: string,
+): Promise<void> {
+  const prismaRepository = new PrismaContactRepository(prismaClient)
+  const findPhonenumber = new FindContactByPhoneNumber(prismaRepository)
 
-    const contact = await findPhonenumber.execute(phonenumber);
+  const contact = await findPhonenumber.execute(phonenumber)
 
-    if(!contact){
-        throw new Error("Contact not found");
-    }
+  if (!contact) {
+    throw new Error('Contact not found')
+  }
 
-    const disableContact = new DisableContact(prismaRepository);
-    await disableContact.execute(contact);
+  const disableContact = new DisableContact(prismaRepository)
+  await disableContact.execute(contact)
 }

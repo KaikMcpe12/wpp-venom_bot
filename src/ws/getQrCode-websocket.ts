@@ -1,15 +1,15 @@
-import { FastifyInstance } from "fastify";
-import { wppVenom } from "../server";
+import { FastifyInstance } from 'fastify'
+import { wppVenom } from '../server'
 
-export function getQrCode(app: FastifyInstance){
-  app.get('/wpp/getqr', { websocket: true }, async (socket) => {    
-    let isClient = true;
+export function getQrCode(app: FastifyInstance) {
+  app.get('/wpp/getqr', { websocket: true }, async (socket) => {
+    let isClient = true
 
-    await wppVenom.terminateVenom();
-    wppVenom.initializeVenom();
+    await wppVenom.terminateVenom()
+    wppVenom.initializeVenom()
 
     wppVenom.on('qrCode', (qrCode: string | null) => {
-      if(qrCode){
+      if (qrCode) {
         socket.send(qrCode)
       } else {
         socket.send('QR Code não encontrado')
@@ -17,15 +17,15 @@ export function getQrCode(app: FastifyInstance){
     })
 
     wppVenom.on('qrCodeError', () => {
-      wppVenom.terminateVenom();
+      wppVenom.terminateVenom()
       if (isClient) {
-        wppVenom.initializeVenom();
+        wppVenom.initializeVenom()
       }
     })
 
     socket.on('close', () => {
-      isClient = false;
-      wppVenom.emit('contactDesconected');
+      isClient = false
+      wppVenom.emit('contactDesconected')
     })
   })
 }

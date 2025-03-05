@@ -1,11 +1,13 @@
-import { OllamaService } from '../ai/Ollama';
-import { IAiRequest } from '../ai/interface/IAiService';
-import { loadDataContextService } from '../services/loadDataContextService';
+import { OllamaService } from '../ai/Ollama'
+import { IAiRequest } from '../ai/interface/IAiService'
+import { loadDataContextService } from '../services/loadDataContextService'
 
-export async function initializeAi(tools: IAiRequest[] = []): Promise<OllamaService> {
-    const modelfile = await loadDataContextService()
+export async function initializeAi(
+  tools: IAiRequest[] = [],
+): Promise<OllamaService> {
+  const modelfile = await loadDataContextService()
 
-    const ollamaClient = new OllamaService(modelfile, tools)
+  const ollamaClient = new OllamaService(modelfile, tools)
 
-    return ollamaClient
+  return ollamaClient
 }

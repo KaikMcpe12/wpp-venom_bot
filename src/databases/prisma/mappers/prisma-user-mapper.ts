@@ -1,11 +1,14 @@
-import { Contact as IContact, Preference as IPreference } from '@prisma/client';
-import { Contact } from '../../../entities/contact/contact';
-import { Replace } from '../../../helpers/Replace';
+import { Contact as IContact, Preference as IPreference } from '@prisma/client'
+import { Contact } from '../../../entities/contact/contact'
+import { Replace } from '../../../helpers/Replace'
 
-type RawPreference = Replace<IPreference, { id?: string, userId?: string, updatedAt?: Date, createdAt?: Date } >
+type RawPreference = Replace<
+  IPreference,
+  { id?: string; contactId?: string; updatedAt?: Date; createdAt?: Date }
+>
 
 interface RawContact extends IContact {
-  preference?: RawPreference[];
+  preference?: RawPreference[]
 }
 
 export class PrismaContactMapper {
@@ -17,7 +20,7 @@ export class PrismaContactMapper {
       botstatus: contact.botstatus,
       updatedAt: contact.updatedAt,
       createdAt: contact.createdAt,
-    };
+    }
   }
 
   static toDomain(raw: RawContact): Contact {
@@ -28,9 +31,11 @@ export class PrismaContactMapper {
         botstatus: raw.botstatus,
         updatedAt: raw.updatedAt,
         createdAt: raw.createdAt,
-        preferences: raw.preference && raw.preference.map(preference => preference.preferences),
+        preferences:
+          raw.preference &&
+          raw.preference.map((preference) => preference.preferences),
       },
       raw.id,
-    );
+    )
   }
 }

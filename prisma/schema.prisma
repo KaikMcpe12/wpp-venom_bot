@@ -24,9 +24,9 @@ model Contact {
 
 model Preference {
   id          String   @id
-  userId      String
+  contactId      String
   preferences String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  user        Contact  @relation(fields: [userId], references: [id])
+  user        Contact  @relation(fields: [contactId], references: [id])
 }

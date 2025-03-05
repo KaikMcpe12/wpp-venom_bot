@@ -1,8 +1,8 @@
-import { IAiService } from "../ai/interface/IAiService"
-import { loadDataContextService } from "./loadDataContextService"
+import { IAiService } from '../ai/interface/IAiService'
+import { loadDataContextService } from './loadDataContextService'
 
 export async function generateUserContextService(aiClient: IAiService) {
-    const modelfile = await loadDataContextService()
+  const modelfile = await loadDataContextService()
 
-    aiClient.context = modelfile
+  aiClient.context = modelfile
 }

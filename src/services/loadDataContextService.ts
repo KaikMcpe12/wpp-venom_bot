@@ -1,9 +1,9 @@
 // import { readPDF } from "../lib/readPdf";
-import fs from 'fs';
+import fs from 'fs'
 
 export async function loadDataContextService() {
-    // const pdfChuncks = await readPDF('../../../data/document.pdf');
-    const systemContentDetails = fs.readFileSync('data/system.txt', 'utf-8');
+  // const pdfChuncks = await readPDF('../../../data/document.pdf');
+  const systemContentDetails = fs.readFileSync('data/system.txt', 'utf-8')
 
-    return systemContentDetails
+  return systemContentDetails
 }

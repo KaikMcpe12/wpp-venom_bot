@@ -1,21 +1,24 @@
-import { Contact as IContact } from '@prisma/client';
-import { Contact } from '../../entities/contact/contact';
-import { Replace } from '../../helpers/Replace';
+import { Contact as IContact } from '@prisma/client'
+import { Contact } from '../../entities/contact/contact'
+import { Replace } from '../../helpers/Replace'
 
-type IRawContact = Replace<IContact, { id?: string, updatedAt?: Date, createdAt?: Date, botstatus?: boolean } >
+type IRawContact = Replace<
+  IContact,
+  { id?: string; updatedAt?: Date; createdAt?: Date; botstatus?: boolean }
+>
 
 export interface RawContact extends IRawContact {
-  preference: string[] | undefined;
+  preference: string[] | undefined
 }
 
 export class AiContactMapper {
-  static toRaw(contact: Contact): RawContact{
+  static toRaw(contact: Contact): RawContact {
     return {
       name: contact.name,
       phonenumber: contact.phonenumber,
       botstatus: contact.botstatus,
-      preference: contact.preferences
-    };
+      preference: contact.preferences,
+    }
   }
 
   static toDomain(raw: RawContact): Contact {
@@ -28,6 +31,6 @@ export class AiContactMapper {
         createdAt: raw.createdAt,
       },
       raw.id,
-    );
+    )
   }
 }
