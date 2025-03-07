@@ -6,6 +6,7 @@ import { initializeAi } from '../lib/ai'
 import { generateUserContextService } from '../services/generate-user-context-service'
 import CreateContact from '../use-cases/ai/contact/create-contact-usecase'
 import { FindContactByPhoneNumber } from '../use-cases/ai/contact/find-contact-phonenumber-usecase'
+import { IAiService } from './interface/IAiService'
 import { AiContactMapper } from './mappers/ai-contact-mapper'
 import { createContactTool } from './toolsConfig/aiTools'
 
@@ -14,11 +15,27 @@ interface IRequestUser {
   phonenumber: string
 }
 
-describe.skip('Test ia chat', () => {
+describe('Test ia chat', () => {
+  let aiClient: IAiService
+  let inMemory: InMemoryContactRepository
+  let createContact: CreateContact
+  let findContact: FindContactByPhoneNumber
+
+  beforeAll(async () => {
+    aiClient = await initializeAi()
+    inMemory = new InMemoryContactRepository()
+
+    createContact = new CreateContact(inMemory)
+    findContact = new FindContactByPhoneNumber(inMemory)
+  })
+
+  beforeEach(() => {
+    inMemory.contacts = []
+  })
+
   it('should test normal ia chat', async () => {
-    const aiClient = await initializeAi()
     const body = {
-      phonenumber: '999999999999',
+      name: 'Diego',
       message: 'Olá tudo bem? Quem é você?',
     }
 
@@ -27,9 +44,6 @@ describe.skip('Test ia chat', () => {
   }, 60000)
 
   it('should ia chat create contact', async () => {
-    const inMemory = new InMemoryContactRepository()
-    const createContact = new CreateContact(inMemory)
-
     const functionImplementation = async (request: IRequestUser) =>
       AiContactMapper.toRaw(await createContact.execute(request))
 
@@ -37,11 +51,14 @@ describe.skip('Test ia chat', () => {
       { function: createContactTool, functionImplementation },
     ])
 
+    const contact = await findContact.execute('(12)12212-1212')
+
     const body = {
-      phonenumber: '999999999999',
+      name: `${contact?.name || 'Contato sem nome'} ((12)12212-1212)`,
       message:
-        'Crie um novo usuário chamado August com número de telefone 999999999999',
+        'Crie um novo usuário chamado August com número de telefone (12)12212-1212',
     }
+
     const response = await sendMessageAi(body, aiClient)
     console.log(response)
 
@@ -51,25 +68,21 @@ describe.skip('Test ia chat', () => {
   }, 60000)
 
   it('should test ia know contact', async () => {
-    const inMemory = new InMemoryContactRepository()
-
     inMemory.create(
       makeContact({ phonenumber: '(12)12212-1212', name: 'Augusto' }),
     )
 
-    const findContact = new FindContactByPhoneNumber(inMemory)
     const contact = await findContact.execute('(12)12212-1212')
 
-    const aiClient = await initializeAi()
-
-    await generateUserContextService(aiClient, inMemory)
+    await generateUserContextService(aiClient)
 
     const body = {
       name: `${contact?.name || 'Contato sem nome'} ((12)12212-1212)`,
-      message: 'Qual o meu nome?',
+      message: 'Você sabe meu nome? Qual o meu nome?',
     }
 
     const response = await sendMessageAi(body, aiClient)
+    console.log(response)
 
     expect(response).toContain('Augusto')
   }, 60000)

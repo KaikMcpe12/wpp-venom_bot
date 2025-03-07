@@ -16,17 +16,17 @@ export class CreatePreference {
   public async execute(
     requestPreference: IRequestPreference,
   ): Promise<Preference> {
-    const { content } = requestPreference
+    const { content, phoneNumber } = requestPreference
 
     if (!content) throw new Error('Invalid preference data')
 
-    const user = await this.contactRepository.findByPhoneNumber(
-      requestPreference.phoneNumber,
+    const contact = await this.contactRepository.findByPhoneNumber(
+      phoneNumber
     )
 
-    if (!user) throw new Error('User not found')
+    if (!contact) throw new Error('User not found')
 
-    const preference = new Preference({ content }, user.id)
+    const preference = new Preference({ content }, contact.id)
 
     const response = await this.preferenceRepository.create(preference)
 
