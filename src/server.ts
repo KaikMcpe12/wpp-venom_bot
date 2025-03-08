@@ -13,6 +13,7 @@ import { initializeAi } from './lib/ai'
 import { getQrCode } from './ws/getQrCode-websocket'
 import websocketPlugin from './plugin/websocket-plugin'
 import { IAiService } from './ai/interface/IAiService'
+import { env } from '../env'
 
 const app: FastifyInstance = fastify({
   maxParamLength: 1048576,
@@ -44,11 +45,11 @@ const startServer = async () => {
 
     app.listen(
       {
-        port: 3333,
+        port: env.PORT,
       },
       (err) => {
         console.log(err)
-        console.log('Serve its running on the port 3333')
+        console.log(`Serve its running on the port ${env.PORT}`)
       },
     )
   } catch (err) {

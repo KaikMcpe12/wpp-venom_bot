@@ -9,20 +9,10 @@ import {
 export class OllamaService implements IAiService {
   private ollamaClient!: Ollama
   private availableFunctions!: AvailableFunctions
+  private _tools: IAiRequest[] = []
 
-  constructor(
-    private _context: string,
-    private _tools: IAiRequest[] = [],
-  ) {
+  constructor(private _context: string) {
     this.ollamaClient = new Ollama()
-
-    this.availableFunctions = this._tools.reduce(
-      (acc: AvailableFunctions, tool) => {
-        acc[tool.function.function.name] = tool.functionImplementation
-        return acc
-      },
-      {},
-    )
   }
 
   public async chat(
@@ -47,7 +37,7 @@ export class OllamaService implements IAiService {
         top_p: 0.9,
       },
     })
-    console.log({ role: 'user', content: message })
+    // console.log({ role: 'user', content: message })
 
     if (response.message.tool_calls) {
       return await this.executeFunction(response.message, message)
@@ -64,8 +54,10 @@ export class OllamaService implements IAiService {
   ): Promise<{ message: string }> {
     for (const tool of message.tool_calls!) {
       const functionToCall = this.availableFunctions[tool.function.name]
+
       if (functionToCall) {
         const output = await functionToCall(tool.function.arguments)
+        console.log(output)
 
         const response = await this.chat(requestUser, [
           message,
@@ -91,5 +83,21 @@ export class OllamaService implements IAiService {
 
   public set context(context: string) {
     this._context = context
+  }
+
+  public get tools(): IAiRequest[] {
+    return this.tools
+  }
+
+  public set tools(tools: IAiRequest[]) {
+    this._tools = tools
+
+    this.availableFunctions = this._tools.reduce(
+      (acc: AvailableFunctions, tool) => {
+        acc[tool.function.function.name] = tool.functionImplementation
+        return acc
+      },
+      {},
+    )
   }
 }

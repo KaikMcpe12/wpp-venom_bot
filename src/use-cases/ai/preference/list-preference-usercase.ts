@@ -3,7 +3,7 @@ import { ContactRepository } from '../../../repositories/contactRepository'
 import { PreferenceRepository } from '../../../repositories/preferenceRepository'
 
 interface IRequestPreference {
-    phoneNumber: string
+  phoneNumber: string
 }
 
 export class ListPreference {
@@ -12,7 +12,9 @@ export class ListPreference {
     private contactRepository: ContactRepository,
   ) {}
 
-  async execute(requestPreference: IRequestPreference): Promise<Preference[] | null> {
+  async execute(
+    requestPreference: IRequestPreference,
+  ): Promise<Preference[] | null> {
     const { phoneNumber } = requestPreference
 
     if (!phoneNumber) throw new Error('Invalid phone number')

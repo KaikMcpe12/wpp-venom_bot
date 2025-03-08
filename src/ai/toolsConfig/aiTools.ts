@@ -62,3 +62,17 @@ export const disableContactTool = {
     },
   },
 }
+
+export const listContactsTool = {
+  type: 'function',
+  function: {
+    name: 'listContact',
+    description:
+      'Lista todos os contatos para gerenciar os contatos. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
+    parameters: {
+      type: 'object',
+      required: [],
+      properties: {},
+    },
+  },
+}

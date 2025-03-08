@@ -15,7 +15,9 @@ export class InMemoryPreferenceRepository implements PreferenceRepository {
   }
 
   async listAll(contactId: string): Promise<Preference[]> {
-    const preferencesCopy = this.preferences.filter((c) => c.contactId === contactId)
+    const preferencesCopy = this.preferences.filter(
+      (c) => c.contactId === contactId,
+    )
 
     return preferencesCopy
   }

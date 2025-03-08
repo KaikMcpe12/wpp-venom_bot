@@ -38,6 +38,7 @@ export interface IArgsMessage {
 
 export interface IAiService {
   context: string
+  tools: IAiRequest[]
   chat: (
     message: string,
     argsMessages?: IArgsMessage[],

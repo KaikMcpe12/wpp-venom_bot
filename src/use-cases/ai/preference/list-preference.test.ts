@@ -14,11 +14,8 @@ describe('List preference', () => {
   beforeEach(async () => {
     inMemoryPreference = new InMemoryPreferenceRepository()
     inMemoryContact = new InMemoryContactRepository()
-    
-    listPreference = new ListPreference(
-      inMemoryPreference,
-      inMemoryContact
-    )
+
+    listPreference = new ListPreference(inMemoryPreference, inMemoryContact)
 
     contact = makeContact({ phonenumber: '123456789' })
     await inMemoryContact.create(contact)
@@ -29,13 +26,13 @@ describe('List preference', () => {
 
   it('should create a new preference', async () => {
     const preferences = await listPreference.execute({
-        phoneNumber: '123456789',
+      phoneNumber: '123456789',
     })
 
     expect(preferences?.length).toBe(2)
 
     preferences?.forEach((preference) => {
-        expect(preference).toBeInstanceOf(Preference)
+      expect(preference).toBeInstanceOf(Preference)
     })
 
     contact.preferences = preferences!
@@ -45,9 +42,9 @@ describe('List preference', () => {
 
   it('should not seach a contact', async () => {
     await expect(
-        listPreference.execute({
-            phoneNumber: '987654321',
-        })
+      listPreference.execute({
+        phoneNumber: '987654321',
+      }),
     ).rejects.toThrow('User not found')
   })
 
@@ -56,7 +53,7 @@ describe('List preference', () => {
     await inMemoryContact.create(contact)
 
     const preferences = await listPreference.execute({
-        phoneNumber: '1234567892',
+      phoneNumber: '1234567892',
     })
 
     expect(preferences).toBeNull()

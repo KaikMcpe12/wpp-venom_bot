@@ -20,9 +20,7 @@ export class CreatePreference {
 
     if (!content) throw new Error('Invalid preference data')
 
-    const contact = await this.contactRepository.findByPhoneNumber(
-      phoneNumber
-    )
+    const contact = await this.contactRepository.findByPhoneNumber(phoneNumber)
 
     if (!contact) throw new Error('User not found')
 
