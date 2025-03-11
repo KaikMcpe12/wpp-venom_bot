@@ -48,10 +48,10 @@ export const disableContactTool = {
   function: {
     name: 'disanleContact',
     description:
-      'Desabilite usuário para que não possa fala-lo com ele. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
+      'Desabilita a conversa com o contato por IA, para que o autor exclusivamente converse com ele. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
     parameters: {
       type: 'object',
-      required: ['phonenumber'],
+      required: ['phoneNumber'],
       properties: {
         name: {
           type: 'string',

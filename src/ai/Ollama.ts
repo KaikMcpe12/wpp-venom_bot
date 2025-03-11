@@ -37,7 +37,6 @@ export class OllamaService implements IAiService {
         top_p: 0.9,
       },
     })
-    // console.log({ role: 'user', content: message })
 
     if (response.message.tool_calls) {
       return await this.executeFunction(response.message, message)
@@ -57,7 +56,7 @@ export class OllamaService implements IAiService {
 
       if (functionToCall) {
         const output = await functionToCall(tool.function.arguments)
-        console.log(output)
+        // console.log(output)
 
         const response = await this.chat(requestUser, [
           message,

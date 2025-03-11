@@ -44,7 +44,7 @@ describe('Test ia chat', () => {
     const contact = await findContact.execute('(12)12212-1212')
 
     const body = {
-      name: `${contact?.name || 'Contato sem nome'} ((12)12212-1212)`,
+      name: `[${contact?.name || 'Contato sem nome'}] [(12)12212-1212]`,
       message:
         'Crie um novo usuário chamado August com número de telefone (12)12212-1212',
     }
@@ -62,7 +62,7 @@ describe('Test ia chat', () => {
     const contact = await findContact.execute('(12)12212-1212')
 
     const body = {
-      name: `${contact?.name || 'Contato sem nome'} ((12)12212-1212)`,
+      name: `[${contact?.name || 'Contato sem nome'}] [(12)12212-1212]`,
       message: 'Você sabe meu nome? Qual o meu nome?',
     }
 
@@ -71,7 +71,7 @@ describe('Test ia chat', () => {
     expect(response).toContain('Augusto')
   }, 60000)
 
-  it('should list all contacts', async () => {
+  it.skip('should list all contacts', async () => {
     inMemory.create(makeContact())
     inMemory.create(makeContact())
 

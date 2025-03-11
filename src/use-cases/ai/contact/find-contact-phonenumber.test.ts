@@ -19,8 +19,8 @@ describe('Find contact by phone number', () => {
     const prismaContactRepository = new InMemoryContactRepository()
     const findContact = new FindContactByPhoneNumber(prismaContactRepository)
 
-    const foundContact = await findContact.execute('1234567890')
-
-    expect(foundContact).toBeNull()
+    await expect(findContact.execute('1234567890')).rejects.toThrow(
+      new Error('Contact not found'),
+    )
   })
 })

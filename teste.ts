@@ -1,199 +1,96 @@
-import { Ollama } from 'ollama'
+import ollama from 'ollama'
 
-class ContactManager {
-  constructor() {
-    this.contacts = new Map()
-    this.preferences = new Map()
-    this.ollama = new Ollama()
-    this.loadData()
-    this.initializeCustomModel()
-  }
-
-  async initializeCustomModel() {
-    try {
-      // Cria um modelo personalizado
-      await this.ollama.create({
-        model: 'llama3.2:1b',
-        modelfile: `
-FROM mistral
-PARAMETER temperature 0.7
-SYSTEM You are a helpful, respectful, and honest assistant designed to help users. Your name is Jonas.
-        `,
-      })
-    } catch (error) {
-      console.error('Erro ao criar modelo personalizado:', error)
-    }
-  }
-
-  // Salva tanto contatos quanto preferências
-  saveData() {
-    try {
-      const fs = require('fs')
-      const data = {
-        contacts: Object.fromEntries(this.contacts),
-        preferences: Object.fromEntries(this.preferences),
-      }
-      fs.writeFileSync('userdata.json', JSON.stringify(data, null, 2))
-    } catch (error) {
-      console.error('Erro ao salvar dados:', error)
-    }
-  }
-
-  // Carrega contatos e preferências
-  loadData() {
-    try {
-      const fs = require('fs')
-      if (fs.existsSync('userdata.json')) {
-        const data = JSON.parse(fs.readFileSync('userdata.json', 'utf8'))
-        this.contacts = new Map(Object.entries(data.contacts || {}))
-        this.preferences = new Map(Object.entries(data.preferences || {}))
-      }
-    } catch (error) {
-      console.error('Erro ao carregar dados:', error)
-    }
-  }
-
-  // Adiciona ou atualiza um contato
-  addContact(phone, name) {
-    const formattedPhone = this.formatPhone(phone)
-    this.contacts.set(formattedPhone, name)
-
-    // Inicializa preferências padrão se não existirem
-    if (!this.preferences.has(formattedPhone)) {
-      this.preferences.set(formattedPhone, {
-        language: 'pt-BR',
-        model: 'llama3.2:1b',
-        temperature: 0.7,
-        systemPrompt: 'Você é um assistente amigável e prestativo.',
-        notifications: true,
-        timezone: 'America/Sao_Paulo',
-        topics: [],
-      })
-    }
-
-    this.saveData()
-  }
-
-  // Atualiza as preferências de um usuário
-  updatePreferences(phone, newPreferences) {
-    const formattedPhone = this.formatPhone(phone)
-    if (!this.contacts.has(formattedPhone)) {
-      throw new Error('Contato não encontrado')
-    }
-
-    const currentPrefs = this.preferences.get(formattedPhone) || {}
-    this.preferences.set(formattedPhone, {
-      ...currentPrefs,
-      ...newPreferences,
-    })
-
-    this.saveData()
-  }
-
-  // Obtém as preferências de um usuário
-  getPreferences(phone) {
-    const formattedPhone = this.formatPhone(phone)
-    return this.preferences.get(formattedPhone) || null
-  }
-
-  formatPhone(phone) {
-    return phone.replace(/\D/g, '')
-  }
-
-  getContactName(phone) {
-    return this.contacts.get(this.formatPhone(phone)) || null
-  }
-
-  // Processa uma mensagem levando em conta as preferências do usuário
-  async processMessage(message) {
-    const phoneRegex = /\((\d{2})\)(\d{5})-(\d{4})/
-    const match = message.match(phoneRegex)
-
-    if (!match) {
-      throw new Error('Número de telefone não encontrado na mensagem')
-    }
-
-    const fullPhone = match[0]
-    const formattedPhone = this.formatPhone(fullPhone)
-    const contactName = this.getContactName(formattedPhone)
-    const userPrefs = this.getPreferences(formattedPhone)
-
-    if (!userPrefs) {
-      throw new Error('Preferências do usuário não encontradas')
-    }
-
-    // Substitui o número pelo nome se disponível
-    const processedMessage = contactName
-      ? message.replace(fullPhone, `${contactName} (${fullPhone})`)
-      : message
-
-    // Monta o contexto com as preferências do usuário
-    const context = [
-      {
-        role: 'system',
-        content: userPrefs.systemPrompt,
-      },
-      {
-        role: 'user',
-        content: processedMessage,
-      },
-    ]
-
-    // Processa a mensagem com o Ollama usando as preferências do usuário
-    const response = await this.ollama.chat({
-      model: userPrefs.model,
-      messages: context,
-      options: {
-        temperature: userPrefs.temperature,
-      },
-    })
-    console.log(context)
-
-    return response
-  }
-
-  // Métodos de utilidade para gerenciar tópicos de interesse
-  addTopic(phone, topic) {
-    const prefs = this.getPreferences(phone)
-    if (prefs && !prefs.topics.includes(topic)) {
-      prefs.topics.push(topic)
-      this.updatePreferences(phone, { topics: prefs.topics })
-    }
-  }
-
-  removeTopic(phone, topic) {
-    const prefs = this.getPreferences(phone)
-    if (prefs) {
-      prefs.topics = prefs.topics.filter((t) => t !== topic)
-      this.updatePreferences(phone, { topics: prefs.topics })
-    }
-  }
+// Add two numbers function
+function addTwoNumbers(args: { a: number; b: number }): number {
+  return args.a + args.b
 }
 
-// Exemplo de uso
-async function main() {
-  const manager = new ContactManager()
+// Subtract two numbers function
+function subtractTwoNumbers(args: { a: number; b: number }): number {
+  return args.a - args.b
+}
 
-  // Adiciona um contato com preferências padrão
-  manager.addContact('(12)12212-1212', 'Contato sem nome')
+// Tool definition for add function
+const addTwoNumbersTool = {
+  type: 'function',
+  function: {
+    name: 'addTwoNumbers',
+    description: 'Add two numbers together',
+    parameters: {
+      type: 'object',
+      required: ['a', 'b'],
+      properties: {
+        a: { type: 'number', description: 'The first number' },
+        b: { type: 'number', description: 'The second number' },
+      },
+    },
+  },
+}
 
-  // Atualiza preferências específicas
-  manager.updatePreferences('(12)12212-1212', {
-    language: 'en',
-    temperature: 0.9,
-    systemPrompt: 'You are a friendly assistant that likes to use emojis.',
+// Tool definition for subtract function
+const subtractTwoNumbersTool = {
+  type: 'function',
+  function: {
+    name: 'subtractTwoNumbers',
+    description: 'Subtract two numbers',
+    parameters: {
+      type: 'object',
+      required: ['a', 'b'],
+      properties: {
+        a: { type: 'number', description: 'The first number' },
+        b: { type: 'number', description: 'The second number' },
+      },
+    },
+  },
+}
+
+async function run(model: string) {
+  const messages = [{ role: 'user', content: 'What is three minus one?' }]
+  console.log('Prompt:', messages[0].content)
+
+  const availableFunctions = {
+    addTwoNumbers,
+    subtractTwoNumbers,
+  }
+
+  const response = await ollama.chat({
+    model,
+    messages,
+    tools: [addTwoNumbersTool, subtractTwoNumbersTool],
   })
 
-  // Adiciona tópicos de interesse
-  manager.addTopic('(12)12212-1212', 'tecnologia')
-  manager.addTopic('(12)12212-1212', 'música')
+  let output: number
+  if (response.message.tool_calls) {
+    // Process tool calls from the response
+    for (const tool of response.message.tool_calls) {
+      const functionToCall = availableFunctions[tool.function.name]
+      if (functionToCall) {
+        console.log('Calling function:', tool.function.name)
+        console.log('Arguments:', tool.function.arguments)
+        output = functionToCall(tool.function.arguments)
+        console.log('Function output:', output)
 
-  // Processa uma mensagem
-  const message = '(12)12212-1212: Você sabe meu nome? Qual?'
-  const response = await manager.processMessage(message)
-  console.log(response)
+        // Add the function response to messages for the model to use
+        messages.push(response.message)
+        messages.push({
+          role: 'tool',
+          content: output.toString(),
+        })
+      } else {
+        console.log('Function', tool.function.name, 'not found')
+      }
+    }
+    console.log(messages)
+
+    // Get final response from model with function outputs
+    const finalResponse = await ollama.chat({
+      model,
+      messages,
+    })
+    console.log('Final response:', finalResponse.message.content)
+  } else {
+    console.log('No tool calls returned from model')
+  }
 }
 
-main()
-
-export default ContactManager
+run('llama3.2:1b').catch((error) => console.error('An error occurred:', error))
