@@ -10,6 +10,7 @@ export class OllamaService implements IAiService {
   private ollamaClient!: Ollama
   private availableFunctions!: AvailableFunctions
   private _tools: IAiRequest[] = []
+  private model: string = 'llama3.2'
 
   constructor(private _context: string) {
     this.ollamaClient = new Ollama()
@@ -20,11 +21,11 @@ export class OllamaService implements IAiService {
     argsMessages?: IArgsMessage[],
   ): Promise<{ message: string }> {
     const response = await this.ollamaClient.chat({
-      model: 'llama3.2:1b',
+      model: this.model,
       messages: [
         {
           role: 'system',
-          content: `FROM llama3.2:1b
+          content: `${this.model}
         SYSTEM "${this._context}"`,
         },
         { role: 'user', content: message },
@@ -56,7 +57,7 @@ export class OllamaService implements IAiService {
 
       if (functionToCall) {
         const output = await functionToCall(tool.function.arguments)
-        // console.log(output)
+        console.log(output)
 
         const response = await this.chat(requestUser, [
           message,

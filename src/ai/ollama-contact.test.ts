@@ -15,7 +15,7 @@ interface IRequestUser {
   phonenumber: string
 }
 
-describe('Test ia chat', () => {
+describe.skip('Test contact functions', () => {
   let aiClient: IAiService
   let inMemory: InMemoryContactRepository
   let createContact: CreateContact
@@ -35,7 +35,7 @@ describe('Test ia chat', () => {
     inMemory.contacts = []
   })
 
-  it.skip('should ia chat create contact', async () => {
+  it('should ia chat create contact', async () => {
     const functionImplementation = async (request: IRequestUser) =>
       AiContactMapper.toRaw(await createContact.execute(request))
 
@@ -54,7 +54,7 @@ describe('Test ia chat', () => {
     expect(inMemory.contacts[0]).toBeInstanceOf(Contact)
   }, 60000)
 
-  it.skip('should test ia know contact', async () => {
+  it('should test ia know contact', async () => {
     inMemory.create(
       makeContact({ phonenumber: '(12)12212-1212', name: 'Augusto' }),
     )
@@ -71,7 +71,7 @@ describe('Test ia chat', () => {
     expect(response).toContain('Augusto')
   }, 60000)
 
-  it.skip('should list all contacts', async () => {
+  it('should list all contacts', async () => {
     inMemory.create(makeContact())
     inMemory.create(makeContact())
 

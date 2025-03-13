@@ -19,6 +19,9 @@ export class Venom {
 
       this._client.onMessage(async (message) => {
         console.log('New message of:', message)
+        if (await this.client.isConnected()) {
+          return
+        }
         await handlerMessageVenomBot(this._client!, message)
       })
     } catch (err: Error | any) {

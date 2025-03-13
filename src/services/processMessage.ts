@@ -16,8 +16,12 @@ export async function handlerMessageVenomBot(
 
     if (message.body === '!bot off') {
       await disableContactController(phonenumber)
+      clientVenom.sendText(message.from, '🤖 Bot Desligado')
+      return
     } else if (message.body === '!bot on') {
       await enableContactController(phonenumber)
+      clientVenom.sendText(message.from, '🤖 Bot ligado')
+      return
     }
     // should add help for comands
 

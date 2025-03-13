@@ -23,46 +23,6 @@ export const createContactTool = {
   },
 }
 
-export const enableContactTool = {
-  type: 'function',
-  function: {
-    name: 'enableContact',
-    description:
-      'Habilite usuário que estão desabilitados para conversar novamente. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
-    parameters: {
-      type: 'object',
-      required: ['phonenumber'],
-      properties: {
-        name: {
-          type: 'string',
-          description:
-            'O número de telefone enviado na mensagem do usuário para habilitar.',
-        },
-      },
-    },
-  },
-}
-
-export const disableContactTool = {
-  type: 'function',
-  function: {
-    name: 'disanleContact',
-    description:
-      'Desabilita a conversa com o contato por IA, para que o autor exclusivamente converse com ele. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
-    parameters: {
-      type: 'object',
-      required: ['phoneNumber'],
-      properties: {
-        name: {
-          type: 'string',
-          description:
-            'O número de telefone enviado na mensagem do usuário para desabilitar-lo.',
-        },
-      },
-    },
-  },
-}
-
 export const listContactsTool = {
   type: 'function',
   function: {
@@ -73,6 +33,31 @@ export const listContactsTool = {
       type: 'object',
       required: [],
       properties: {},
+    },
+  },
+}
+
+export const createPreferenceTool = {
+  type: 'function',
+  function: {
+    name: 'createPreference',
+    description:
+      'Adiciona uma nova preferência específica ao perfil do usuário, como estilo de conversa, tópicos de interesse ou tom de comunicação sobre como a IA deve se comunicar com este usuário específico. IMPORTANTE: Os parâmetros devem ser passados diretamente, sem um objeto "properties" envolvendo-os.',
+    parameters: {
+      type: 'object',
+      required: ['phoneNumber', 'content'],
+      properties: {
+        phoneNumber: {
+          type: 'string',
+          description:
+            'Número de telefone do usuário para identificação do perfil. Deve ser passado diretamente, sem estar dentro de um objeto "properties".',
+        },
+        content: {
+          type: 'string',
+          description:
+            'Valor específico da preferência (ex: "alegre", "técnico", "conciso"). Deve ser passado diretamente, sem estar dentro de um objeto "properties".',
+        },
+      },
     },
   },
 }
