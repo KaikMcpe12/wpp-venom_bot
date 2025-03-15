@@ -18,7 +18,15 @@ export class PrismaPreferenceRepository implements PreferenceRepository {
     return PrismaPreferenceMapper.toDomain(preference)
   }
 
-  async createPreference(preference: Preference): Promise<Preference | null> {
+  async listAll(contactId: string): Promise<Preference[]> {
+    const preferences = await this.prisma.preference.findMany({
+      where: { contactId },
+    })
+
+    return preferences.map(PrismaPreferenceMapper.toDomain)
+  }
+
+  async create(preference: Preference): Promise<Preference | null> {
     const raw = PrismaPreferenceMapper.toPrisma(preference)
 
     const response = await this.prisma.preference.create({

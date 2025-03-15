@@ -2,13 +2,13 @@ import { Preference as IPreference } from '@prisma/client'
 import { Replace } from '../../helpers/Replace'
 import { Preference } from '../../entities/preference/preference'
 
-type IRawPreference = Replace<
+export type RawPreference = Replace<
   IPreference,
   { id?: string; contactId: string; updatedAt?: Date; createdAt?: Date }
 >
 
 export class AiPreferenceMapper {
-  static toRaw(preference: Preference): IRawPreference {
+  static toRaw(preference: Preference): RawPreference {
     return {
       id: preference.id,
       contactId: preference.contactId,
@@ -18,7 +18,7 @@ export class AiPreferenceMapper {
     }
   }
 
-  static toDomain(raw: IRawPreference): Preference {
+  static toDomain(raw: RawPreference): Preference {
     return new Preference(
       {
         content: raw.preferences,

@@ -52,7 +52,7 @@ describe.skip('Test contact functions', () => {
     await sendMessageAi(body, aiClient)
 
     expect(inMemory.contacts[0]).toBeInstanceOf(Contact)
-  }, 60000)
+  }, 120000)
 
   it('should test ia know contact', async () => {
     inMemory.create(
@@ -69,7 +69,7 @@ describe.skip('Test contact functions', () => {
     const response = await sendMessageAi(body, aiClient)
 
     expect(response).toContain('Augusto')
-  }, 60000)
+  }, 120000)
 
   it('should list all contacts', async () => {
     inMemory.create(makeContact())
@@ -91,5 +91,5 @@ describe.skip('Test contact functions', () => {
     const response = await sendMessageAi(body, aiClient)
 
     expect(response).toContain('não')
-  }, 60000)
+  }, 120000)
 })

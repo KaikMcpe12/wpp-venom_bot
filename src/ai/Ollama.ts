@@ -10,10 +10,12 @@ export class OllamaService implements IAiService {
   private ollamaClient!: Ollama
   private availableFunctions!: AvailableFunctions
   private _tools: IAiRequest[] = []
-  private model: string = 'llama3.2'
+  private model: string = 'qwen2.5:1.5b'
 
   constructor(private _context: string) {
-    this.ollamaClient = new Ollama()
+    this.ollamaClient = new Ollama({
+      host: 'http://127.0.0.1:11434',
+    })
   }
 
   public async chat(
@@ -57,7 +59,7 @@ export class OllamaService implements IAiService {
 
       if (functionToCall) {
         const output = await functionToCall(tool.function.arguments)
-        console.log(output)
+        // console.log(output)
 
         const response = await this.chat(requestUser, [
           message,

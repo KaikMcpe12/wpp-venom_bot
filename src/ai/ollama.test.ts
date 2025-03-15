@@ -17,5 +17,5 @@ describe('Test ia chat', () => {
 
     const response = await sendMessageAi(body, aiClient)
     expect(response).toBeTruthy()
-  }, 60000)
+  }, 120000)
 })
