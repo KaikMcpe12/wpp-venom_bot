@@ -1,5 +1,5 @@
 import { Preference } from '../../src/entities/preference/preference'
-import { PreferenceRepository } from '../../src/repositories/preferenceRepository'
+import { PreferenceRepository } from '../../src/databases/repositories/preferenceRepository'
 
 export class InMemoryPreferenceRepository implements PreferenceRepository {
   public preferences: Preference[] = []

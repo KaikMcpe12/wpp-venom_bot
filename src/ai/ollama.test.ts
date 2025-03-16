@@ -1,12 +1,12 @@
-import { sendMessageAi } from '../controller/sendMessageAi'
-import { initializeAi } from '../lib/ai'
+import { getAiClient } from '../lib/ai-client'
+import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
 import { IAiService } from './interface/IAiService'
 
 describe('Test ia chat', () => {
   let aiClient: IAiService
 
   beforeAll(async () => {
-    aiClient = await initializeAi()
+    aiClient = await getAiClient()
   })
 
   it('should test normal ia chat', async () => {

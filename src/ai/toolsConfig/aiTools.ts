@@ -1,4 +1,4 @@
-export const createContactTool = {
+export const createContactToolConfig = {
   type: 'function',
   function: {
     name: 'createContact',
@@ -23,7 +23,7 @@ export const createContactTool = {
   },
 }
 
-export const listContactsTool = {
+export const listContactsToolConfig = {
   type: 'function',
   function: {
     name: 'listContact',
@@ -37,7 +37,7 @@ export const listContactsTool = {
   },
 }
 
-export const createPreferenceTool = {
+export const createPreferenceToolConfig = {
   type: 'function',
   function: {
     name: 'createPreference',

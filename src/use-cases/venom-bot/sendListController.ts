@@ -1,6 +1,6 @@
-import WppBotRepository from '../repositories/venomBotRepository'
-import { ISendList } from '../interface/messageInterface'
-import { wppVenom } from '../server'
+import WppBotRepository from '../../databases/repositories/venomBotRepository'
+import { ISendList } from '../../http/dto/send-list-schema'
+import { wppVenom } from '../../lib/wpp-venom'
 
 export async function sendListController(data: ISendList) {
   const wpp = new WppBotRepository(wppVenom)

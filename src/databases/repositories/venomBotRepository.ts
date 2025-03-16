@@ -1,5 +1,6 @@
-import { ISendButton, ISendList } from '../interface/messageInterface'
-import { Venom } from '../lib/instanceVenomBot'
+import { ISendButton } from '../../http/dto/send-button-schema'
+import { ISendList } from '../../http/dto/send-list-schema'
+import { Venom } from '../../lib/wpp-venom'
 
 export default class WppBotRepository {
   constructor(private wpp: Venom) {}

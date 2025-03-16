@@ -1,6 +1,6 @@
 import { Preference } from '../../../entities/preference/preference'
-import { ContactRepository } from '../../../repositories/contactRepository'
-import { PreferenceRepository } from '../../../repositories/preferenceRepository'
+import { ContactRepository } from '../../../databases/repositories/contactRepository'
+import { PreferenceRepository } from '../../../databases/repositories/preferenceRepository'
 
 interface IRequestPreference {
   phoneNumber: string

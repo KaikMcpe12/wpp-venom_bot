@@ -1,4 +1,4 @@
-import { Preference } from '../entities/preference/preference'
+import { Preference } from '../../entities/preference/preference'
 
 export abstract class PreferenceRepository {
   abstract findById(contactId: string): Promise<Preference | null>

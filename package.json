@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
+    "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .ts --fix",
     "dev": "tsx watch src/server.ts"
   },

@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { ContactRepository } from '../../../repositories/contactRepository'
+import { ContactRepository } from '../../repositories/contactRepository'
 import { PrismaContactMapper } from '../mappers/prisma-user-mapper'
 import { Contact } from '../../../entities/contact/contact'
 

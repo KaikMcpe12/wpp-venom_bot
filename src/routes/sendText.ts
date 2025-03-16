@@ -1,31 +1,18 @@
-import { FastifyInstance } from 'fastify'
-import { ZodTypeProvider } from 'fastify-type-provider-zod'
-import z from 'zod'
-import { sendTextController } from '../controller/sendTextController'
+import { FastifyReply, FastifyRequest } from 'fastify'
+import { sendTextController } from '../use-cases/venom-bot/sendTextController'
+import { ISendText } from '../http/dto/send-text-schem'
 
-export function sendText(app: FastifyInstance) {
-  app
-    .withTypeProvider<ZodTypeProvider>()
-    .post<{ Body: { numberPhone: number; message: string } }>(
-      '/wpp/sendtext',
-      {
-        schema: {
-          body: z.object({
-            numberPhone: z.number(),
-            message: z.string(),
-          }),
-        },
-      },
-      async (req, reply) => {
-        const { numberPhone, message } = req.body
+export async function sendText(
+  request: FastifyRequest<{ Body: ISendText }>,
+  reply: FastifyReply,
+) {
+  const { numberPhone, message } = request.body
 
-        const result = await sendTextController(numberPhone, message)
+  const result = await sendTextController(numberPhone, message)
 
-        if (!result) {
-          reply.status(400).send('Message not sent')
-        }
+  if (!result) {
+    reply.status(400).send('Message not sent')
+  }
 
-        reply.status(200).send({ message: 'Message send' })
-      },
-    )
+  reply.status(200).send({ message: 'Message send' })
 }

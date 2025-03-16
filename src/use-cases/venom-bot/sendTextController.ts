@@ -1,5 +1,5 @@
-import WppBotRepository from '../repositories/venomBotRepository'
-import { wppVenom } from '../server'
+import WppBotRepository from '../../databases/repositories/venomBotRepository'
+import { wppVenom } from '../../lib/wpp-venom'
 
 export async function sendTextController(number: number, message: string) {
   const wpp = new WppBotRepository(wppVenom)

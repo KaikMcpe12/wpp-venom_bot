@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { wppVenom } from '../server'
+import { wppVenom } from '../lib/wpp-venom'
 
 export function getQrCode(app: FastifyInstance) {
   app.get('/wpp/getqr', { websocket: true }, async (socket) => {

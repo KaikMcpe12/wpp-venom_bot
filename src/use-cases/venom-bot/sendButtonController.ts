@@ -1,6 +1,6 @@
-import WppBotRepository from '../repositories/venomBotRepository'
-import { ISendButton } from '../interface/messageInterface'
-import { wppVenom } from '../server'
+import WppBotRepository from '../../databases/repositories/venomBotRepository'
+import { ISendButton } from '../../http/dto/send-button-schema'
+import { wppVenom } from '../../lib/wpp-venom'
 
 export async function sendButtonController(data: ISendButton) {
   const wpp = new WppBotRepository(wppVenom)

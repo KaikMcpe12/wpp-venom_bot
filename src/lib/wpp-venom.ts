@@ -1,5 +1,5 @@
 import * as venom from 'venom-bot'
-import { handlerMessageVenomBot } from '../services/processMessage'
+import { handlerMessageVenomBot } from '../utils/processMessage'
 import EventEmitter from 'events'
 
 export class Venom {
@@ -55,3 +55,5 @@ export class Venom {
     return this._client
   }
 }
+
+export const wppVenom = new Venom()

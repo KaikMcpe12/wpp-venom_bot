@@ -2,16 +2,16 @@ import { makeContact } from '../../test/factory/make-contact'
 import { makePreference } from '../../test/factory/make-preference'
 import { InMemoryContactRepository } from '../../test/repository/in-memory-contact-repository'
 import { InMemoryPreferenceRepository } from '../../test/repository/in-memory-preference-repository'
-import { sendMessageAi } from '../controller/sendMessageAi'
+import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
 import { Contact } from '../entities/contact/contact'
 import { Preference } from '../entities/preference/preference'
-import { initializeAi } from '../lib/ai'
-import { addPreferenceContext } from '../services/addPreferenceInContext'
+import { addPreferenceContext } from '../utils/addPreferenceInContext'
 import { CreatePreference } from '../use-cases/ai/preference/create-preference-usecase'
 import { ListPreference } from '../use-cases/ai/preference/list-preference-usercase'
 import { IAiService } from './interface/IAiService'
 import { AiPreferenceMapper } from './mappers/ai-preference-mapper'
-import { createPreferenceTool } from './toolsConfig/aiTools'
+import { createPreferenceToolConfig } from './toolsConfig/aiTools'
+import { getAiClient } from '../lib/ai-client'
 
 interface IRequestPreference {
   phoneNumber: string
@@ -28,7 +28,7 @@ describe('Test preferences functions', () => {
   let listPreference: ListPreference
 
   beforeAll(async () => {
-    aiClient = await initializeAi()
+    aiClient = await getAiClient()
     inMemoryContact = new InMemoryContactRepository()
     inMemoryPreference = new InMemoryPreferenceRepository()
 
@@ -52,7 +52,7 @@ describe('Test preferences functions', () => {
       AiPreferenceMapper.toRaw(await createPreference.execute(request))
 
     aiClient.tools = [
-      { function: createPreferenceTool, functionImplementation },
+      { function: createPreferenceToolConfig, functionImplementation },
     ]
 
     const body = {

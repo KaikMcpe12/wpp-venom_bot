@@ -1,5 +1,5 @@
 import { Contact } from '../../src/entities/contact/contact'
-import { ContactRepository } from '../../src/repositories/contactRepository'
+import { ContactRepository } from '../../src/databases/repositories/contactRepository'
 
 export class InMemoryContactRepository implements ContactRepository {
   public contacts: Contact[] = []

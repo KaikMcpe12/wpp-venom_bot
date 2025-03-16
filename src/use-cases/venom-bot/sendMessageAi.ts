@@ -1,4 +1,4 @@
-import { IAiService } from '../ai/interface/IAiService'
+import { IAiService } from '../../ai/interface/IAiService'
 
 interface IBody {
   name: string

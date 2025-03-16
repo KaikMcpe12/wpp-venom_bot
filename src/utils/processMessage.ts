@@ -1,10 +1,10 @@
 import venom from 'venom-bot'
-import { sendMessageAi } from '../controller/sendMessageAi'
-import { aiClient } from '../server'
-import { findContactByPhonenumberController } from '../controller/ai-tools/find-contact-phonenumber-controller'
+import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
+import { findContactByPhoneNumberTool } from '../ai/ai-tools/find-contact-phonenumber-controller'
 import { env } from '../../env'
-import { disableContactController } from '../controller/ai-tools/disable-contact-controller'
-import { enableContactController } from '../controller/ai-tools/enable-contact-controller'
+import { disableContactTool } from '../ai/ai-tools/disable-contact-controller'
+import { enableContactTool } from '../ai/ai-tools/enable-contact-controller'
+import { getAiClient } from '../lib/ai-client'
 
 export async function handlerMessageVenomBot(
   clientVenom: venom.Whatsapp,
@@ -12,14 +12,14 @@ export async function handlerMessageVenomBot(
 ) {
   if (message.body && !message.isGroupMsg && env.ENABLE_BOT) {
     const phonenumber = message.from.split('@')[0]
-    const contact = await findContactByPhonenumberController(phonenumber)
+    const contact = await findContactByPhoneNumberTool(phonenumber)
 
     if (message.body === '!bot off') {
-      await disableContactController(phonenumber)
+      await disableContactTool(phonenumber)
       clientVenom.sendText(message.from, '🤖 Bot Desligado')
       return
     } else if (message.body === '!bot on') {
-      await enableContactController(phonenumber)
+      await enableContactTool(phonenumber)
       clientVenom.sendText(message.from, '🤖 Bot ligado')
       return
     }
@@ -29,6 +29,8 @@ export async function handlerMessageVenomBot(
       name: `${contact?.name || 'Contato sem nome'} (${phonenumber})`,
       message: message.body,
     }
+
+    const aiClient = await getAiClient()
 
     const reply = await sendMessageAi(body, aiClient)
 

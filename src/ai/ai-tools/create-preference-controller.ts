@@ -1,34 +1,31 @@
 import { PrismaContactRepository } from '../../databases/prisma/respositories/prisma-contact-respository'
 import { prismaClient } from '../../lib/prisma'
+import { CreatePreference } from '../../use-cases/ai/preference/create-preference-usecase'
 import { PrismaPreferenceRepository } from '../../databases/prisma/respositories/prisma-preference-repository'
 import {
   AiPreferenceMapper,
   RawPreference,
-} from '../../ai/mappers/ai-preference-mapper'
-import { ListPreference } from '../../use-cases/ai/preference/list-preference-usercase'
+} from '../mappers/ai-preference-mapper'
 
 interface IRequestPreference {
   phoneNumber: string
+  content: string
 }
 
-export async function listPreferenceController(
+export async function createPreferenceTool(
   requestUser: IRequestPreference,
-): Promise<RawPreference[]> {
+): Promise<RawPreference> {
   const prismaContactRepository = new PrismaContactRepository(prismaClient)
   const prismaPreferenceRepository = new PrismaPreferenceRepository(
     prismaClient,
   )
 
-  const listPreference = new ListPreference(
+  const createPreference = new CreatePreference(
     prismaPreferenceRepository,
     prismaContactRepository,
   )
 
-  const preferences = await listPreference.execute(requestUser)
+  const contact = await createPreference.execute(requestUser)
 
-  if (!preferences) {
-    return []
-  }
-
-  return preferences.map((preference) => AiPreferenceMapper.toRaw(preference))
+  return AiPreferenceMapper.toRaw(contact)
 }

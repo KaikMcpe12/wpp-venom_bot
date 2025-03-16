@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { Preference } from '../../../entities/preference/preference'
-import { PreferenceRepository } from '../../../repositories/preferenceRepository'
+import { PreferenceRepository } from '../../repositories/preferenceRepository'
 import { PrismaPreferenceMapper } from '../mappers/prisma-preference-mapper'
 
 export class PrismaPreferenceRepository implements PreferenceRepository {

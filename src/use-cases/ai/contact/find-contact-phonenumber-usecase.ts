@@ -1,6 +1,6 @@
 import { Contact } from '../../../entities/contact/contact'
-import { ContactRepository } from '../../../repositories/contactRepository'
-import { sanitizePhoneNumber } from '../../../services/sanitizePhoneNumber'
+import { ContactRepository } from '../../../databases/repositories/contactRepository'
+import { sanitizePhoneNumber } from '../../../utils/sanitizePhoneNumber'
 
 export class FindContactByPhoneNumber {
   constructor(private contactRepository: ContactRepository) {}

@@ -1,5 +1,5 @@
 import { Contact } from '../../../entities/contact/contact'
-import { ContactRepository } from '../../../repositories/contactRepository'
+import { ContactRepository } from '../../../databases/repositories/contactRepository'
 
 export class ListContacts {
   constructor(private contactRepository: ContactRepository) {}

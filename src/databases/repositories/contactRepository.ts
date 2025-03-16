@@ -1,4 +1,4 @@
-import { Contact } from '../entities/contact/contact'
+import { Contact } from '../../entities/contact/contact'
 
 export abstract class ContactRepository {
   abstract findById(contactId: string): Promise<Contact | null>

@@ -1,14 +1,17 @@
 import { makeContact } from '../../test/factory/make-contact'
 import { InMemoryContactRepository } from '../../test/repository/in-memory-contact-repository'
-import { sendMessageAi } from '../controller/sendMessageAi'
+import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
 import { Contact } from '../entities/contact/contact'
-import { initializeAi } from '../lib/ai'
 import CreateContact from '../use-cases/ai/contact/create-contact-usecase'
 import { FindContactByPhoneNumber } from '../use-cases/ai/contact/find-contact-phonenumber-usecase'
 import ListContacts from '../use-cases/ai/contact/list-contacts-usecase'
 import { IAiService } from './interface/IAiService'
 import { AiContactMapper } from './mappers/ai-contact-mapper'
-import { createContactTool, listContactsTool } from './toolsConfig/aiTools'
+import {
+  createContactToolConfig,
+  listContactsToolConfig,
+} from './toolsConfig/aiTools'
+import { getAiClient } from '../lib/ai-client'
 
 interface IRequestUser {
   name: string
@@ -23,7 +26,7 @@ describe.skip('Test contact functions', () => {
   let listContacts: ListContacts
 
   beforeAll(async () => {
-    aiClient = await initializeAi()
+    aiClient = await getAiClient()
     inMemory = new InMemoryContactRepository()
 
     createContact = new CreateContact(inMemory)
@@ -39,7 +42,9 @@ describe.skip('Test contact functions', () => {
     const functionImplementation = async (request: IRequestUser) =>
       AiContactMapper.toRaw(await createContact.execute(request))
 
-    aiClient.tools = [{ function: createContactTool, functionImplementation }]
+    aiClient.tools = [
+      { function: createContactToolConfig, functionImplementation },
+    ]
 
     const contact = await findContact.execute('(12)12212-1212')
 
@@ -80,7 +85,9 @@ describe.skip('Test contact functions', () => {
         AiContactMapper.toRaw(contact),
       )
 
-    aiClient.tools = [{ function: listContactsTool, functionImplementation }]
+    aiClient.tools = [
+      { function: listContactsToolConfig, functionImplementation },
+    ]
 
     const body = {
       name: `Augusto`,
