@@ -4,12 +4,9 @@ import {
   serializerCompiler,
   validatorCompiler,
 } from 'fastify-type-provider-zod'
-import { helloworld } from './http/controllers/helloWorld'
-import { sendText } from './routes/sendText'
-import { sendList } from './routes/sendList'
-import { sendButton } from './routes/sendButton'
 import { getQrCode } from './ws/getQrCode-websocket'
 import websocketPlugin from './plugin/websocket-plugin'
+import { appRoutes } from './http/routes'
 
 const app: FastifyInstance = fastify({
   maxParamLength: 1048576,
@@ -24,11 +21,7 @@ app.register(cors, {
 
 app.register(websocketPlugin)
 
-app.register(helloworld)
-
-app.register(sendText)
-app.register(sendList)
-app.register(sendButton)
+app.register(appRoutes)
 
 app.register(getQrCode)
 

@@ -1,13 +1,24 @@
 import { ISendButton } from '../../http/dto/send-button-schema'
 import { ISendList } from '../../http/dto/send-list-schema'
+import { ISendText } from '../../http/dto/send-text-schem'
 import { Venom } from '../../lib/wpp-venom'
+import { WppRepository } from './wpp-repository'
 
-export default class WppBotRepository {
+export class WppVenomRepository implements WppRepository {
   constructor(private wpp: Venom) {}
 
-  async sendMessage(number: string, message: string) {
+  async getAllContacts(): Promise<void> {
+    const contacts = await this.wpp.client.getAllContacts()
+
+    console.log(contacts)
+  }
+
+  async sendMessage(data: ISendText) {
     try {
-      const result = await this.wpp.client.sendText(number, message)
+      const result = await this.wpp.client.sendText(
+        data.numberPhone,
+        data.message,
+      )
 
       return result
     } catch (err: Error | any) {

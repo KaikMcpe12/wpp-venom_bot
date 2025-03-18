@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { sendButtonController } from '../use-cases/venom-bot/sendButtonController'
-import { ISendButton } from '../http/dto/send-button-schema'
+import { ISendButton } from '../dto/send-button-schema'
+import { makeSendButtonUseCase } from '../../use-cases/factories/make-send-button-use-case'
 
 export async function sendButton(
   request: FastifyRequest<{ Body: ISendButton }>,
@@ -8,7 +8,9 @@ export async function sendButton(
 ) {
   const { numberPhone, title, description, buttons } = request.body
 
-  const result = await sendButtonController({
+  const sendButton = makeSendButtonUseCase()
+
+  const result = await sendButton.execute({
     numberPhone,
     title,
     description,

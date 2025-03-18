@@ -1,7 +1,7 @@
 import z from 'zod'
 
 export const sendTextSchema = z.object({
-  numberPhone: z.number(),
+  numberPhone: z.string(),
   message: z.string(),
 })
 

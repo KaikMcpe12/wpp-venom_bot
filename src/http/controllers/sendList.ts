@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { sendListController } from '../use-cases/venom-bot/sendListController'
-import { ISendList } from '../http/dto/send-list-schema'
+import { ISendList } from '../dto/send-list-schema'
+import { makeSendListUseCase } from '../../use-cases/factories/make-send-list-use-case'
 
 export async function sendList(
   request: FastifyRequest<{ Body: ISendList }>,
@@ -9,7 +9,9 @@ export async function sendList(
   const { numberPhone, title, subTitle, description, menuName, list } =
     request.body
 
-  const result = await sendListController({
+  const sendList = makeSendListUseCase()
+
+  const result = await sendList.execute({
     numberPhone,
     title,
     subTitle,

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { sendTextController } from '../use-cases/venom-bot/sendTextController'
-import { ISendText } from '../http/dto/send-text-schem'
+import { ISendText } from '../dto/send-text-schem'
+import { makeSendTextUseCase } from '../../use-cases/factories/make-send-text-use-case'
 
 export async function sendText(
   request: FastifyRequest<{ Body: ISendText }>,
@@ -8,7 +8,12 @@ export async function sendText(
 ) {
   const { numberPhone, message } = request.body
 
-  const result = await sendTextController(numberPhone, message)
+  const sendText = makeSendTextUseCase()
+
+  const result = await sendText.execute({
+    numberPhone,
+    message,
+  })
 
   if (!result) {
     reply.status(400).send('Message not sent')
