@@ -5,6 +5,7 @@ import { env } from '../../env'
 import { disableContactTool } from '../ai/ai-tools/disable-contact-controller'
 import { enableContactTool } from '../ai/ai-tools/enable-contact-controller'
 import { getAiClient } from '../lib/ai-client'
+import { tools } from '../ai/toolsConfig/aiTools'
 
 export async function handlerMessageVenomBot(
   clientVenom: venom.Whatsapp,
@@ -31,6 +32,7 @@ export async function handlerMessageVenomBot(
     }
 
     const aiClient = await getAiClient()
+    aiClient.tools = tools
 
     const reply = await sendMessageAi(body, aiClient)
 

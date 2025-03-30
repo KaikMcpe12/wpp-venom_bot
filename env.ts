@@ -3,7 +3,7 @@ import { z } from 'zod'
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
-  ENABLE_BOT: z.boolean().default(true),
+  ENABLE_BOT: z.coerce.boolean().default(true),
   PORT: z.coerce.number().default(3333),
 })
 

@@ -10,7 +10,7 @@ import { AiContactMapper } from './mappers/ai-contact-mapper'
 import {
   createContactToolConfig,
   listContactsToolConfig,
-} from './toolsConfig/aiTools'
+} from './toolsConfig/aiToolsConfig'
 import { getAiClient } from '../lib/ai-client'
 
 interface IRequestUser {

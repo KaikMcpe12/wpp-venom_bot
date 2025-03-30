@@ -6,8 +6,18 @@ export class Venom {
   private _client: venom.Whatsapp | null = null
   private _events: EventEmitter = new EventEmitter()
 
-  public initializeVenom = async () => {
+  public async initializeVenom() {
+    let connectedCanceled: boolean = false
+
+    this.on('contactDesconected', () => {
+      connectedCanceled = true
+    })
+
     try {
+      if (connectedCanceled) {
+        throw new Error('Initialization cancelled due to disconnection')
+      }
+
       this._client = await venom.create({
         session: 'wpp_venom-bot',
         headless: 'new',
@@ -19,19 +29,19 @@ export class Venom {
 
       this._client.onMessage(async (message) => {
         console.log('New message of:', message)
-        if (await this.client.isConnected()) {
-          return
-        }
         await handlerMessageVenomBot(this._client!, message)
       })
-    } catch (err: Error | any) {
-      console.log(err)
+
+      console.log('Venom bot inicializado com sucesso.')
+      return this._client
+    } catch (err) {
       this._events.emit('qrCodeError')
-      throw new Error('Error initializing venom bot:', err)
+      console.error('Error initializing venom bot:', err)
+      throw new Error(`Error initializing venom bot: ${err}`)
     }
   }
 
-  public terminateVenom = async (): Promise<void> => {
+  public async terminateVenom(): Promise<void> {
     if (this._client) {
       await this._client.logout()
       this._client = null

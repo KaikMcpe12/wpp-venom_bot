@@ -10,7 +10,7 @@ import { CreatePreference } from '../use-cases/ai/preference/create-preference-u
 import { ListPreference } from '../use-cases/ai/preference/list-preference-usercase'
 import { IAiService } from './interface/IAiService'
 import { AiPreferenceMapper } from './mappers/ai-preference-mapper'
-import { createPreferenceToolConfig } from './toolsConfig/aiTools'
+import { createPreferenceToolConfig } from './toolsConfig/aiToolsConfig'
 import { getAiClient } from '../lib/ai-client'
 
 interface IRequestPreference {
