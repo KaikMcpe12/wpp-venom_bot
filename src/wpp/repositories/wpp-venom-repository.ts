@@ -1,24 +1,21 @@
+import { Whatsapp } from 'venom-bot'
 import { ISendButton } from '../../http/dto/send-button-schema'
 import { ISendList } from '../../http/dto/send-list-schema'
 import { ISendText } from '../../http/dto/send-text-schem'
-import { Venom } from '../../lib/wpp-venom'
 import { WppRepository } from './wpp-repository'
 
 export class WppVenomRepository implements WppRepository {
-  constructor(private wpp: Venom) {}
+  constructor(private wpp: Whatsapp) {}
 
   async getAllContacts(): Promise<void> {
-    const contacts = await this.wpp.client.getAllContacts()
+    const contacts = await this.wpp.getAllContacts()
 
     console.log(contacts)
   }
 
   async sendMessage(data: ISendText) {
     try {
-      const result = await this.wpp.client.sendText(
-        data.numberPhone,
-        data.message,
-      )
+      const result = await this.wpp.sendText(data.numberPhone, data.message)
 
       return result
     } catch (err: Error | any) {
@@ -29,7 +26,7 @@ export class WppVenomRepository implements WppRepository {
 
   async sendList(data: ISendList) {
     try {
-      const result = await this.wpp.client.sendListMenu(
+      const result = await this.wpp.sendListMenu(
         data.numberPhone,
         data.title,
         data.subTitle,
@@ -47,7 +44,7 @@ export class WppVenomRepository implements WppRepository {
 
   async sendButton(data: ISendButton) {
     try {
-      const result = await this.wpp.client.sendButtons(
+      const result = await this.wpp.sendButtons(
         data.numberPhone,
         data.title,
         data.description,

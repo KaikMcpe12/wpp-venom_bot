@@ -57,9 +57,9 @@ export class Venom {
     this._events.emit(event, ...args)
   }
 
-  public get client(): venom.Whatsapp {
+  public get client(): venom.Whatsapp | null {
     if (!this._client) {
-      throw new Error('Venom bot not initialized')
+      return null
     }
 
     return this._client
