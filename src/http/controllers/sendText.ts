@@ -10,13 +10,13 @@ export async function sendText(
 
   const sendText = makeSendTextUseCase()
 
-  const result = await sendText.execute({
-    numberPhone,
-    message,
-  })
-
-  if (!result) {
-    reply.status(400).send('Message not sent')
+  try {
+    await sendText.execute({
+      numberPhone,
+      message,
+    })
+  } catch (err: Error | any) {
+    reply.status(400).send({ error: err.message })
   }
 
   reply.status(200).send({ message: 'Message send' })

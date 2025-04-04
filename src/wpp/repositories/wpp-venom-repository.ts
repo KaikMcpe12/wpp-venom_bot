@@ -7,10 +7,18 @@ import { WppRepository } from './wpp-repository'
 export class WppVenomRepository implements WppRepository {
   constructor(private wpp: Whatsapp) {}
 
-  async getAllContacts(): Promise<void> {
-    const contacts = await this.wpp.getAllContacts()
+  async getAllContacts() {
+    const venomContacts = await this.wpp.getAllContacts()
 
-    console.log(contacts)
+    const contacts = venomContacts
+      .filter((contact) => contact.isUser)
+      .map((contact) => ({
+        id: contact.id._serialized,
+        name: contact.name,
+        phoneNumber: contact.id.user,
+      }))
+
+    return contacts
   }
 
   async sendMessage(data: ISendText) {

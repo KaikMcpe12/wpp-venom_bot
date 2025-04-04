@@ -10,15 +10,15 @@ export async function sendButton(
 
   const sendButton = makeSendButtonUseCase()
 
-  const result = await sendButton.execute({
-    numberPhone,
-    title,
-    description,
-    buttons,
-  })
-
-  if (!result) {
-    reply.status(400).send('Message not sent')
+  try {
+    await sendButton.execute({
+      numberPhone,
+      title,
+      description,
+      buttons,
+    })
+  } catch (err: Error | any) {
+    reply.status(400).send({ error: err.message })
   }
 
   reply.status(200).send({ message: 'Message send' })

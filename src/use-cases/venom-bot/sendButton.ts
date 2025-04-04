@@ -11,7 +11,7 @@ export class SendButton {
     })
 
     if (!result) {
-      return new Error('Message not sent')
+      throw new Error('Message not sent')
     }
 
     return result

@@ -15,13 +15,13 @@ export class Venom {
 
     try {
       if (connectedCanceled) {
+        console.log('❗❗❗❗❗connectedCanceled')
         throw new Error('Initialization cancelled due to disconnection')
       }
 
       this._client = await venom.create({
         session: 'wpp_venom-bot',
         headless: 'new',
-        autoClose: 10000,
         catchQR: async (base64Qr) => {
           this._events.emit('qrCode', base64Qr)
         },
@@ -63,6 +63,10 @@ export class Venom {
     }
 
     return this._client
+  }
+
+  public isConnected(): boolean {
+    return this._client !== null
   }
 }
 
