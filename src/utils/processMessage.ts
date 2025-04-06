@@ -11,9 +11,10 @@ export async function handlerMessageVenomBot(
   clientVenom: venom.Whatsapp,
   message: venom.Message,
 ) {
-  if (message.body && !message.isGroupMsg && env.ENABLE_BOT) {
+  if (message.body && !message.isGroupMsg && env.ENABLE_BOT && message.fromMe) {
     const phonenumber = message.from.split('@')[0]
     const contact = await findContactByPhoneNumberTool(phonenumber)
+    console.log(message.filename)
 
     if (message.body === '!bot off') {
       await disableContactTool(phonenumber)

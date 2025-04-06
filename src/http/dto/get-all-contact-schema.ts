@@ -1,4 +1,5 @@
 import z from 'zod'
+import { Replace } from '../../helpers/Replace'
 
 export const getAllContactsSchema = z.object({
   id: z.string(),
@@ -6,7 +7,10 @@ export const getAllContactsSchema = z.object({
   phoneNumber: z.string(),
 })
 
-export type IGetAllContacts = z.infer<typeof getAllContactsSchema>
+export type IGetAllContacts = Replace<
+  z.infer<typeof getAllContactsSchema>,
+  { numberPhone: string }
+>
 
 // {
 //   id: {

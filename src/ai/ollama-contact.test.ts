@@ -4,7 +4,7 @@ import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
 import { Contact } from '../entities/contact/contact'
 import CreateContact from '../use-cases/ai/contact/create-contact-usecase'
 import { FindContactByPhoneNumber } from '../use-cases/ai/contact/find-contact-phonenumber-usecase'
-import ListContacts from '../use-cases/ai/contact/list-contacts-usecase'
+import { ListContacts } from '../use-cases/ai/contact/list-contacts-usecase'
 import { IAiService } from './interface/IAiService'
 import { AiContactMapper } from './mappers/ai-contact-mapper'
 import {

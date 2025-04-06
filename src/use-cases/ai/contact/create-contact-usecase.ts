@@ -1,5 +1,6 @@
 import { Contact } from '../../../entities/contact/contact'
 import { ContactRepository } from '../../../databases/repositories/contactRepository'
+import { ContactAlredyExistsError } from '../../errors/contact-alredy-exists-error'
 
 interface IRequestUser {
   name: string
@@ -12,12 +13,10 @@ export default class CreateContact {
   public async execute(requestUser: IRequestUser): Promise<Contact> {
     const { name, phonenumber } = requestUser
 
-    if (!name || !phonenumber) throw new Error('Invalid user data')
-
     const existingContact =
       await this.contactRepository.findByPhoneNumber(phonenumber)
 
-    if (existingContact) throw new Error('Contact already exists')
+    if (existingContact) throw new ContactAlredyExistsError()
 
     const contact = new Contact({
       name,

@@ -1,19 +1,20 @@
 import { ISendButton } from '../../http/dto/send-button-schema'
 import { WppRepository } from '../../wpp/repositories/wpp-repository'
+import { MessageNotSentError } from '../errors/message-not-sent-error'
 
 export class SendButton {
   constructor(private wpp: WppRepository) {}
 
   async execute(data: ISendButton) {
-    const result = await this.wpp.sendButton({
-      ...data,
-      numberPhone: data.numberPhone + '@c.us',
-    })
+    try {
+      const result = await this.wpp.sendButton({
+        ...data,
+        numberPhone: data.numberPhone + '@c.us',
+      })
 
-    if (!result) {
-      throw new Error('Message not sent')
+      return result
+    } catch {
+      throw new MessageNotSentError()
     }
-
-    return result
   }
 }

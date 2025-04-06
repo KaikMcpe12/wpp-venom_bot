@@ -1,20 +1,21 @@
 import { ISendList } from '../../http/dto/send-list-schema'
 import { PhoneFormatterVenom } from '../../utils/phoneNumberFormatterVenom'
 import { WppRepository } from '../../wpp/repositories/wpp-repository'
+import { MessageNotSentError } from '../errors/message-not-sent-error'
 
 export class SendList {
   constructor(private wpp: WppRepository) {}
 
   async execute(data: ISendList) {
-    const result = await this.wpp.sendList({
-      ...data,
-      numberPhone: PhoneFormatterVenom.format(data.numberPhone),
-    })
+    try {
+      const result = await this.wpp.sendList({
+        ...data,
+        numberPhone: PhoneFormatterVenom.format(data.numberPhone),
+      })
 
-    if (!result) {
-      throw new Error('Message not sent')
+      return result
+    } catch {
+      throw new MessageNotSentError()
     }
-
-    return result
   }
 }

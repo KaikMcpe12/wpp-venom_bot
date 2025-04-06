@@ -1,10 +1,12 @@
 export class PhoneFormatterVenom {
-  public static format(numberPhone: string) {
-    if (!numberPhone.endsWith('@c.us')) {
-      return `${numberPhone}@c.us`
+  public static format(numberPhone: string | number) {
+    const phoneStr = String(numberPhone)
+
+    if (!phoneStr.endsWith('@c.us')) {
+      return `${phoneStr}@c.us`
     }
 
-    return numberPhone
+    return phoneStr
   }
 
   public static unformat(numberPhone: string) {

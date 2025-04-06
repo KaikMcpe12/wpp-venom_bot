@@ -1,6 +1,7 @@
 import { Preference } from '../../../entities/preference/preference'
 import { ContactRepository } from '../../../databases/repositories/contactRepository'
 import { PreferenceRepository } from '../../../databases/repositories/preferenceRepository'
+import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 
 interface IRequestPreference {
   phoneNumber: string
@@ -17,11 +18,9 @@ export class ListPreference {
   ): Promise<Preference[] | null> {
     const { phoneNumber } = requestPreference
 
-    if (!phoneNumber) throw new Error('Invalid phone number')
-
     const contact = await this.contactRepository.findByPhoneNumber(phoneNumber)
 
-    if (!contact) throw new Error('User not found')
+    if (!contact) throw new ResourceNotFoundError()
 
     const preferences = await this.preferenceRepository.listAll(contact.id)
 

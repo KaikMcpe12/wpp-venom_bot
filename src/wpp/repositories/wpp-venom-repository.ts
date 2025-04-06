@@ -22,47 +22,32 @@ export class WppVenomRepository implements WppRepository {
   }
 
   async sendMessage(data: ISendText) {
-    try {
-      const result = await this.wpp.sendText(data.numberPhone, data.message)
+    const result = await this.wpp.sendText(data.numberPhone, data.message)
 
-      return result
-    } catch (err: Error | any) {
-      console.log(err)
-      throw new Error('Message not sent', err)
-    }
+    return result
   }
 
   async sendList(data: ISendList) {
-    try {
-      const result = await this.wpp.sendListMenu(
-        data.numberPhone,
-        data.title,
-        data.subTitle,
-        data.description,
-        data.menuName,
-        data.list,
-      )
+    const result = await this.wpp.sendListMenu(
+      data.numberPhone,
+      data.title,
+      data.subTitle,
+      data.description,
+      data.menuName,
+      data.list,
+    )
 
-      return result
-    } catch (err: Error | any) {
-      console.log(err)
-      throw new Error('Message not sent', err)
-    }
+    return result
   }
 
   async sendButton(data: ISendButton) {
-    try {
-      const result = await this.wpp.sendButtons(
-        data.numberPhone,
-        data.title,
-        data.description,
-        data.buttons,
-      )
+    const result = await this.wpp.sendButtons(
+      data.numberPhone,
+      data.title,
+      data.description,
+      data.buttons,
+    )
 
-      return result
-    } catch (err: Error | any) {
-      console.log(err)
-      throw new Error('Message not sent', err)
-    }
+    return result
   }
 }

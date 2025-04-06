@@ -1,4 +1,5 @@
 import z from 'zod'
+import { Replace } from '../../helpers/Replace'
 
 export const sendButtonSchema = z.object({
   numberPhone: z.string().min(10, 'Número de telefone inválido'),
@@ -13,4 +14,7 @@ export const sendButtonSchema = z.object({
   ),
 })
 
-export type ISendButton = z.infer<typeof sendButtonSchema>
+export type ISendButton = Replace<
+  z.infer<typeof sendButtonSchema>,
+  { numberPhone: string }
+>

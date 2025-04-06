@@ -9,10 +9,6 @@ export async function enableContactTool(phonenumber: string): Promise<void> {
 
   const contact = await findPhonenumber.execute(phonenumber)
 
-  if (!contact) {
-    throw new Error('Contact not found')
-  }
-
   const disableContact = new EnableContact(prismaRepository)
   await disableContact.execute(contact)
 }

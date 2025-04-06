@@ -1,4 +1,5 @@
 import { Venom } from '../../lib/wpp-venom'
+import { UnsuccessfulActionError } from '../errors/unsuccessful-action-error'
 
 export class TerminateSession {
   constructor(private venom: Venom) {}
@@ -7,7 +8,7 @@ export class TerminateSession {
     await this.venom.terminateVenom()
 
     if (this.venom.isConnected()) {
-      throw new Error('Venom is already connected')
+      throw new UnsuccessfulActionError()
     }
   }
 }

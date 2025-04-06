@@ -1,5 +1,6 @@
 import { makeContact } from '../../../../test/factory/make-contact'
 import { InMemoryContactRepository } from '../../../../test/repository/in-memory-contact-repository'
+import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 import { FindContactByPhoneNumber } from './find-contact-phonenumber-usecase'
 
 describe('Find contact by phone number', () => {
@@ -19,8 +20,8 @@ describe('Find contact by phone number', () => {
     const prismaContactRepository = new InMemoryContactRepository()
     const findContact = new FindContactByPhoneNumber(prismaContactRepository)
 
-    await expect(findContact.execute('1234567890')).rejects.toThrow(
-      new Error('Contact not found'),
+    await expect(findContact.execute('1234567890')).rejects.toBeInstanceOf(
+      ResourceNotFoundError,
     )
   })
 })

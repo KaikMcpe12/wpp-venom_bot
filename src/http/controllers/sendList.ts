@@ -11,18 +11,14 @@ export async function sendList(
 
   const sendList = makeSendListUseCase()
 
-  try {
-    await sendList.execute({
-      numberPhone,
-      title,
-      subTitle,
-      description,
-      menuName,
-      list,
-    })
-  } catch (err: Error | any) {
-    reply.status(400).send({ error: err.message })
-  }
+  await sendList.execute({
+    numberPhone,
+    title,
+    subTitle,
+    description,
+    menuName,
+    list,
+  })
 
   reply.status(200).send({ message: 'Message send' })
 }

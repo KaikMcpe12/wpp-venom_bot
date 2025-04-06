@@ -1,7 +1,7 @@
 import { AiContactMapper, RawContact } from '../mappers/ai-contact-mapper'
 import { PrismaContactRepository } from '../../databases/prisma/respositories/prisma-contact-respository'
 import { prismaClient } from '../../lib/prisma'
-import ListContacts from '../../use-cases/ai/contact/list-contacts-usecase'
+import { ListContacts } from '../../use-cases/ai/contact/list-contacts-usecase'
 
 export async function listContactsTool(): Promise<RawContact[]> {
   const prisma = new PrismaContactRepository(prismaClient)

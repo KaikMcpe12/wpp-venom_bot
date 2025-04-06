@@ -2,6 +2,7 @@ import { Preference } from '../../../entities/preference/preference'
 import { ContactRepository } from '../../../databases/repositories/contactRepository'
 import { PreferenceRepository } from '../../../databases/repositories/preferenceRepository'
 import { sanitizePhoneNumber } from '../../../utils/sanitizePhoneNumber'
+import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 
 interface IRequestPreference {
   phoneNumber: string
@@ -21,12 +22,10 @@ export class CreatePreference {
 
     const sanitizedPhoneNumber = sanitizePhoneNumber(phoneNumber)
 
-    if (!content) throw new Error('Invalid preference data')
-
     const contact =
       await this.contactRepository.findByPhoneNumber(sanitizedPhoneNumber)
 
-    if (!contact) throw new Error('User not found')
+    if (!contact) throw new ResourceNotFoundError()
 
     const preference = new Preference({ content }, contact.id)
 

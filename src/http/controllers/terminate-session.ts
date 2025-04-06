@@ -8,11 +8,7 @@ export async function terminateSession(
 ) {
   const terminateSession = new TerminateSession(wppVenom)
 
-  try {
-    await terminateSession.execute()
-  } catch (err: Error | any) {
-    reply.status(500).send({ error: err.message })
-  }
+  await terminateSession.execute()
 
   reply.status(200).send()
 }

@@ -15,13 +15,17 @@ export async function appRoutes(app: FastifyInstance) {
   app.get('/hello', helloWorld)
   app
     .withTypeProvider<ZodTypeProvider>()
-    .post('/wpp/sendtext', { schema: { body: sendTextSchema } }, sendText)
+    .post('/wpp/send/text', { schema: { body: sendTextSchema } }, sendText)
   app
     .withTypeProvider<ZodTypeProvider>()
-    .post('/wpp/sendlist', { schema: { body: sendListSchema } }, sendList)
+    .post('/wpp/send/list', { schema: { body: sendListSchema } }, sendList)
   app
     .withTypeProvider<ZodTypeProvider>()
-    .post('/wpp/sendbutton', { schema: { body: sendButtonSchema } }, sendButton)
+    .post(
+      '/wpp/send/button',
+      { schema: { body: sendButtonSchema } },
+      sendButton,
+    )
   app
     .withTypeProvider<ZodTypeProvider>()
     .get('/wpp/all/contacts', getAllContacts)

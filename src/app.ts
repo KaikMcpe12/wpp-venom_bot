@@ -6,6 +6,7 @@ import {
 } from 'fastify-type-provider-zod'
 import websocketPlugin from './plugin/websocket-plugin'
 import { appRoutes } from './http/routes'
+import { errorHandler } from './errors/error-handler'
 
 const app: FastifyInstance = fastify({
   maxParamLength: 1048576,
@@ -21,5 +22,7 @@ app.register(cors, {
 app.register(websocketPlugin)
 
 app.register(appRoutes)
+
+app.setErrorHandler(errorHandler)
 
 export { app }
