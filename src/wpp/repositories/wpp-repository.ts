@@ -5,7 +5,7 @@ import { ISendText } from '../../http/dto/send-text-schem'
 
 export abstract class WppRepository {
   abstract getAllContacts(): Promise<IGetAllContacts[]>
-  abstract sendMessage(data: ISendText): Promise<object>
+  abstract sendText(data: ISendText): Promise<object>
   abstract sendList(data: ISendList): Promise<object>
   abstract sendButton(data: ISendButton): Promise<object>
 }

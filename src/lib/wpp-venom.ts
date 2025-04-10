@@ -1,24 +1,15 @@
 import * as venom from 'venom-bot'
-import { handlerMessageVenomBot } from '../utils/processMessage'
 import EventEmitter from 'events'
 
-export class Venom {
+export class VenomClient {
   private _client: venom.Whatsapp | null = null
   private _events: EventEmitter = new EventEmitter()
+  private _connectionStatus: 'disconnected' | 'connected' = 'disconnected'
 
   public async initializeVenom() {
-    let connectedCanceled: boolean = false
-
-    this.on('contactDesconected', () => {
-      connectedCanceled = true
-    })
+    if (this._connectionStatus === 'connected') return
 
     try {
-      if (connectedCanceled) {
-        console.log('❗❗❗❗❗connectedCanceled')
-        throw new Error('Initialization cancelled due to disconnection')
-      }
-
       this._client = await venom.create({
         session: 'wpp_venom-bot',
         headless: 'new',
@@ -27,16 +18,14 @@ export class Venom {
         },
       })
 
-      this._client.onMessage(async (message) => {
-        console.log('New message of:', message)
-        await handlerMessageVenomBot(this._client!, message)
-      })
+      this._connectionStatus = 'connected'
+      this._events.emit('connected')
 
       console.log('Venom bot inicializado com sucesso.')
       return this._client
     } catch (err) {
+      this._connectionStatus = 'disconnected'
       this._events.emit('qrCodeError')
-      console.error('Error initializing venom bot:', err)
       throw new Error(`Error initializing venom bot: ${err}`)
     }
   }
@@ -45,8 +34,12 @@ export class Venom {
     if (this._client) {
       await this._client.logout()
       this._client = null
-      console.log('Instância do Venom Bot encerrada.')
+      this._connectionStatus = 'disconnected'
     }
+  }
+
+  public onMessage(listener: (message: venom.Message) => void) {
+    this._client?.onMessage(listener)
   }
 
   public on(event: string, listener: (...args: any[]) => void): void {
@@ -58,16 +51,10 @@ export class Venom {
   }
 
   public get client(): venom.Whatsapp | null {
-    if (!this._client) {
-      return null
-    }
-
     return this._client
   }
 
   public isConnected(): boolean {
-    return this._client !== null
+    return this._connectionStatus === 'connected'
   }
 }
-
-export const wppVenom = new Venom()

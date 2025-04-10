@@ -6,12 +6,12 @@ export async function sendButton(
   request: FastifyRequest<{ Body: ISendButton }>,
   reply: FastifyReply,
 ) {
-  const { numberPhone, title, description, buttons } = request.body
+  const { phoneNumber, title, description, buttons } = request.body
 
   const sendButton = makeSendButtonUseCase()
 
   await sendButton.execute({
-    numberPhone,
+    phoneNumber,
     title,
     description,
     buttons,

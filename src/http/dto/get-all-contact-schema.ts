@@ -9,7 +9,7 @@ export const getAllContactsSchema = z.object({
 
 export type IGetAllContacts = Replace<
   z.infer<typeof getAllContactsSchema>,
-  { numberPhone: string }
+  { phoneNumber: string }
 >
 
 // {

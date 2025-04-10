@@ -9,7 +9,7 @@ import { sendButtonSchema } from './dto/send-button-schema'
 import { sendButton } from './controllers/sendButton'
 import { getAllContacts } from './controllers/get-all-contacts'
 import { terminateSession } from './controllers/terminate-session'
-import { initializeSessionWpp } from '../ws/initialize-wpp-websocket'
+import { WppSessionManager } from '../ws/initialize-wpp-websocket'
 
 export async function appRoutes(app: FastifyInstance) {
   app.get('/hello', helloWorld)
@@ -32,5 +32,7 @@ export async function appRoutes(app: FastifyInstance) {
   app
     .withTypeProvider<ZodTypeProvider>()
     .get('/wpp/terminate', terminateSession)
-  app.get('/wpp/initialize', { websocket: true }, initializeSessionWpp)
+  app.get('/wpp/initialize', { websocket: true }, (connection) => {
+    WppSessionManager.handleConnection(connection)
+  })
 }

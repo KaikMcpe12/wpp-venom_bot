@@ -10,7 +10,7 @@ export class SendList {
     try {
       const result = await this.wpp.sendList({
         ...data,
-        numberPhone: PhoneFormatterVenom.format(data.numberPhone),
+        phoneNumber: PhoneFormatterVenom.format(data.phoneNumber),
       })
 
       return result

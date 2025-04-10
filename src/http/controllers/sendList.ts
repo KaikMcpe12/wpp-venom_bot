@@ -6,13 +6,13 @@ export async function sendList(
   request: FastifyRequest<{ Body: ISendList }>,
   reply: FastifyReply,
 ) {
-  const { numberPhone, title, subTitle, description, menuName, list } =
+  const { phoneNumber, title, subTitle, description, menuName, list } =
     request.body
 
   const sendList = makeSendListUseCase()
 
   await sendList.execute({
-    numberPhone,
+    phoneNumber,
     title,
     subTitle,
     description,

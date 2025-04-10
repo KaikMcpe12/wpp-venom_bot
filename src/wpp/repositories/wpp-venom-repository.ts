@@ -21,15 +21,15 @@ export class WppVenomRepository implements WppRepository {
     return contacts
   }
 
-  async sendMessage(data: ISendText) {
-    const result = await this.wpp.sendText(data.numberPhone, data.message)
+  async sendText(data: ISendText) {
+    const result = await this.wpp.sendText(data.phoneNumber, data.message)
 
     return result
   }
 
   async sendList(data: ISendList) {
     const result = await this.wpp.sendListMenu(
-      data.numberPhone,
+      data.phoneNumber,
       data.title,
       data.subTitle,
       data.description,
@@ -42,7 +42,7 @@ export class WppVenomRepository implements WppRepository {
 
   async sendButton(data: ISendButton) {
     const result = await this.wpp.sendButtons(
-      data.numberPhone,
+      data.phoneNumber,
       data.title,
       data.description,
       data.buttons,

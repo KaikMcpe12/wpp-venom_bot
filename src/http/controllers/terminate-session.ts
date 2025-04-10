@@ -1,12 +1,13 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { TerminateSession } from '../../use-cases/venom-bot/terminate-session'
-import { wppVenom } from '../../lib/wpp-venom'
+import { WppFactory } from '../../wpp/factories/wpp-factory'
 
 export async function terminateSession(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
-  const terminateSession = new TerminateSession(wppVenom)
+  const venomClient = WppFactory.getVenomClient()
+  const terminateSession = new TerminateSession(venomClient)
 
   await terminateSession.execute()
 

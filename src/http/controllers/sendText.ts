@@ -6,12 +6,12 @@ export async function sendText(
   request: FastifyRequest<{ Body: ISendText }>,
   reply: FastifyReply,
 ) {
-  const { numberPhone, message } = request.body
+  const { phoneNumber, message } = request.body
 
   const sendText = makeSendTextUseCase()
 
   await sendText.execute({
-    numberPhone,
+    phoneNumber,
     message,
   })
 

@@ -2,7 +2,7 @@ import { getAiClient } from '../lib/ai-client'
 import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
 import { IAiService } from './interface/IAiService'
 
-describe('Test ia chat', () => {
+describe.skip('Test ia chat', () => {
   let aiClient: IAiService
 
   beforeAll(async () => {

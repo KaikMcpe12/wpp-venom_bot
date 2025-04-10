@@ -2,7 +2,7 @@ import z from 'zod'
 import { Replace } from '../../helpers/Replace'
 
 export const sendListSchema = z.object({
-  numberPhone: z.string(),
+  phoneNumber: z.string(),
   title: z.string(),
   subTitle: z.string(),
   description: z.string(),
@@ -22,5 +22,5 @@ export const sendListSchema = z.object({
 
 export type ISendList = Replace<
   z.infer<typeof sendListSchema>,
-  { numberPhone: string }
+  { phoneNumber: string }
 >

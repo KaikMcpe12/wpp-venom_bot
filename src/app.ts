@@ -25,4 +25,7 @@ app.register(appRoutes)
 
 app.setErrorHandler(errorHandler)
 
+// testes venom-bot
+// ler mensagens de um contato
+
 export { app }

@@ -9,7 +9,7 @@ export class SendButton {
     try {
       const result = await this.wpp.sendButton({
         ...data,
-        numberPhone: data.numberPhone + '@c.us',
+        phoneNumber: data.phoneNumber + '@c.us',
       })
 
       return result

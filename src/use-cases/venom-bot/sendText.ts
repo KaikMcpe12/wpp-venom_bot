@@ -8,8 +8,8 @@ export class SendText {
 
   async execute(data: ISendText) {
     try {
-      const result = await this.wpp.sendMessage({
-        numberPhone: PhoneFormatterVenom.format(data.numberPhone),
+      const result = await this.wpp.sendText({
+        phoneNumber: PhoneFormatterVenom.format(data.phoneNumber),
         message: data.message,
       })
 

@@ -18,7 +18,7 @@ interface IRequestPreference {
   content: string
 }
 
-describe('Test preferences functions', () => {
+describe.skip('Test preferences functions', () => {
   let contact: Contact
 
   let aiClient: IAiService

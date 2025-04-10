@@ -3,6 +3,7 @@ import { makePreference } from '../../../../test/factory/make-preference'
 import { InMemoryContactRepository } from '../../../../test/repository/in-memory-contact-repository'
 import { InMemoryPreferenceRepository } from '../../../../test/repository/in-memory-preference-repository'
 import { Preference } from '../../../entities/preference/preference'
+import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 import { ListPreference } from './list-preference-usercase'
 
 describe('List preference', () => {
@@ -45,7 +46,7 @@ describe('List preference', () => {
       listPreference.execute({
         phoneNumber: '987654321',
       }),
-    ).rejects.toThrow('User not found')
+    ).rejects.toBeInstanceOf(ResourceNotFoundError)
   })
 
   it('should return null if there is no preference', async () => {
