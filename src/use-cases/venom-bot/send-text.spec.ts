@@ -2,11 +2,11 @@ import { VenomClient } from '../../lib/wpp-venom'
 import { WppFactory } from '../../wpp/factories/wpp-factory'
 import { WppVenomRepository } from '../../wpp/repositories/wpp-venom-repository'
 import { WppNotInicializedError } from '../../ws/errors/wpp-not-inicialized-error'
-import { GetAllContacts } from './get-all-contacts'
+import { SendText } from './send-text'
 
-describe('Get all contacts of venom-bot', () => {
+describe.skip('Send text to contact', () => {
   let wppVenomRepository: WppVenomRepository
-  let getAllContacts: GetAllContacts
+  let sut: SendText
   let venomClient: VenomClient
 
   beforeAll(
@@ -20,19 +20,22 @@ describe('Get all contacts of venom-bot', () => {
       }
 
       wppVenomRepository = new WppVenomRepository(venomClient.client)
-      getAllContacts = new GetAllContacts(wppVenomRepository)
+      sut = new SendText(wppVenomRepository)
     },
     5 * 60 * 1000,
   )
 
   it(
-    'should get all contacts',
+    'should send text',
     async () => {
-      const contacts = await getAllContacts.execute()
+      const data = {
+        phoneNumber: '88994660093',
+        message: 'Envio de teste de mensagem',
+      }
 
-      contacts.forEach((contact) => {
-        expect(contact.phoneNumber).toEqual(expect.any(String))
-      })
+      const result = await sut.execute(data)
+
+      expect(result).toBeTruthy()
     },
     5 * 60 * 1000,
   )

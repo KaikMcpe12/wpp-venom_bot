@@ -7,7 +7,7 @@ export class VenomClient {
   private _connectionStatus: 'disconnected' | 'connected' = 'disconnected'
 
   public async initializeVenom() {
-    if (this._connectionStatus === 'connected') return
+    // if (this._connectionStatus === 'connected') return
 
     try {
       this._client = await venom.create({

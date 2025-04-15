@@ -13,7 +13,8 @@ export class SendButton {
       })
 
       return result
-    } catch {
+    } catch (err) {
+      console.error('Error sending button:', err)
       throw new MessageNotSentError()
     }
   }
