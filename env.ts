@@ -4,6 +4,11 @@ import { z } from 'zod'
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
   ENABLE_BOT: z.coerce.boolean().default(true),
+
+  REDIS_HOST: z.string().default('localhost'),
+  REDIS_PASSWORD: z.string(),
+  REDIS_PORT: z.coerce.number().default(6379),
+
   PORT: z.coerce.number().default(3333),
 })
 
