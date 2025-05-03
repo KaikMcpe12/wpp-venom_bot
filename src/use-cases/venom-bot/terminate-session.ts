@@ -7,7 +7,7 @@ export class TerminateSession {
   async execute(): Promise<void> {
     await this.venom.terminateVenom()
 
-    if (this.venom.isConnected()) {
+    if (await this.venom.isConnected()) {
       throw new UnsuccessfulActionError()
     }
   }

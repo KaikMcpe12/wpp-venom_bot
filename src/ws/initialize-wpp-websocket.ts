@@ -14,9 +14,10 @@ export class WppSessionManager {
   private static status: ConnectionStatus = ConnectionStatus.IDLE
 
   public static async handleConnection(socket: WebSocket) {
-    if (this.shouldRejectConnection(socket)) return
-
     const venomClient = WppFactory.getVenomClient()
+    
+    if (await this.shouldRejectConnection(socket, venomClient)) return
+
     this.registerSocket(socket)
 
     try {
@@ -25,12 +26,13 @@ export class WppSessionManager {
     } catch (error) {
       this.handleError(error, socket)
     } finally {
+      socket.send('Connection established')
       this.cleanupConnection(socket)
     }
   }
 
-  private static shouldRejectConnection(socket: WebSocket): boolean {
-    if (this.status !== ConnectionStatus.IDLE) {
+  private static async shouldRejectConnection(socket: WebSocket, client: VenomClient): Promise<boolean> {
+    if (this.status !== ConnectionStatus.IDLE || await client.isConnected()) {
       socket.send('Waiting for existing connection')
       socket.close(1008)
       return true
@@ -72,8 +74,7 @@ export class WppSessionManager {
 
   private static cleanupConnection(socket: WebSocket) {
     this.activeSockets.delete(socket)
-    if (this.activeSockets.size === 0) {
-      this.status = ConnectionStatus.IDLE
-    }
+    this.status = ConnectionStatus.IDLE
+    socket.close(1000, 'Connection closed')
   }
 }
