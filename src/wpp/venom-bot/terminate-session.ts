@@ -1,5 +1,5 @@
 import { VenomClient } from '../../lib/wpp-venom'
-import { UnsuccessfulActionError } from '../errors/unsuccessful-action-error'
+import { UnsuccessfulActionError } from '../../use-cases/errors/unsuccessful-action-error'
 
 export class TerminateSession {
   constructor(private venom: VenomClient) {}

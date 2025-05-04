@@ -1,6 +1,6 @@
 import { makeContact } from '../../test/factory/make-contact'
 import { InMemoryContactRepository } from '../../test/repository/in-memory-contact-repository'
-import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
+import { sendMessageAi } from '../wpp/venom-bot/sendMessageAi'
 import { Contact } from '../entities/contact/contact'
 import CreateContact from '../use-cases/ai/contact/create-contact-usecase'
 import { FindContactByPhoneNumber } from '../use-cases/ai/contact/find-contact-phonenumber-usecase'

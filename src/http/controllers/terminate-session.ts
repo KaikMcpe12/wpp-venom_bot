@@ -1,5 +1,5 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { TerminateSession } from '../../use-cases/venom-bot/terminate-session'
+import { TerminateSession } from '../../wpp/venom-bot/terminate-session'
 import { WppFactory } from '../../wpp/factories/wpp-factory'
 
 export async function terminateSession(

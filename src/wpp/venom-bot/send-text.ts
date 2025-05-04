@@ -1,7 +1,7 @@
 import { ISendText } from '../../http/dto/send-text-schem'
 import { PhoneFormatterVenom } from '../../utils/phoneNumberFormatterVenom'
-import { WppRepository } from '../../wpp/repositories/wpp-repository'
-import { MessageNotSentError } from '../errors/message-not-sent-error'
+import { WppRepository } from '../repositories/wpp-repository'
+import { MessageNotSentError } from '../../use-cases/errors/message-not-sent-error'
 
 export class SendText {
   constructor(private wpp: WppRepository) {}

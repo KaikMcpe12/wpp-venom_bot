@@ -5,11 +5,11 @@ import { FindContactByPhoneNumber } from './find-contact-phonenumber-usecase'
 
 describe('Find contact by phone number', () => {
   it('should return a contact when found', async () => {
-    const prismaContactRepository = new InMemoryContactRepository()
-    const findContact = new FindContactByPhoneNumber(prismaContactRepository)
+    const inMemoryContactRepository = new InMemoryContactRepository()
+    const findContact = new FindContactByPhoneNumber(inMemoryContactRepository)
 
     const contact = makeContact()
-    prismaContactRepository.contacts.push(contact)
+    inMemoryContactRepository.contacts.push(contact)
 
     const foundContact = await findContact.execute(contact.phonenumber)
 
@@ -17,8 +17,8 @@ describe('Find contact by phone number', () => {
   })
 
   it('should return null when contact is not found', async () => {
-    const prismaContactRepository = new InMemoryContactRepository()
-    const findContact = new FindContactByPhoneNumber(prismaContactRepository)
+    const inMemoryContactRepository = new InMemoryContactRepository()
+    const findContact = new FindContactByPhoneNumber(inMemoryContactRepository)
 
     await expect(findContact.execute('1234567890')).rejects.toBeInstanceOf(
       ResourceNotFoundError,

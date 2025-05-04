@@ -1,5 +1,8 @@
 import { RedisClientType } from 'redis'
-import { ContextRepository } from '../../repositories/context-repository'
+import {
+  ContextRepository,
+  IContext,
+} from '../../repositories/context-repository'
 
 export class RedisContextRepository implements ContextRepository {
   private redisClient: RedisClientType
@@ -15,62 +18,24 @@ export class RedisContextRepository implements ContextRepository {
     this.redisClient.on('error', (err) => console.error('Redis Error:', err))
   }
 
-  async getContext(userId: string) {
-    const data = await this.redisClient.get(`context:${userId}`)
-    if (!data) return { history: [], metadata: {} }
-
-    return JSON.parse(data)
+  async getContext(phoneNumber: string) {
+    const data = await this.redisClient.get(`context:${phoneNumber}`)
+    return data ? JSON.parse(data) : null
   }
 
-  async updateContext(
-    userId: string,
-    message: string,
-    response: string,
-    metadata: object = {},
-  ) {
-    const context = await this.getContext(userId)
-
-    context.history.push({
-      role: 'user',
-      content: message,
-      timestamp: Date.now(),
-    })
-
-    context.history.push({
-      role: 'assistant',
-      content: response,
-      timestamp: Date.now(),
-    })
-
-    if (context.history.length > this.MAXHISTORYLENGTH * 2) {
-      context.history = context.history.slice(-this.MAXHISTORYLENGTH * 2)
-    }
-
-    context.metadata = { ...context.metadata, ...metadata }
-
-    await this.redisClient.set(`context:${userId}`, JSON.stringify(context))
-    await this.redisClient.expire(`context:${userId}`, this.CONTEXTEXPIRATION)
-
-    return true
+  async saveContext(phoneNumber: string, context: IContext) {
+    await this.redisClient.set(
+      `context:${phoneNumber}`,
+      JSON.stringify(context),
+    )
+    await this.redisClient.expire(
+      `context:${phoneNumber}`,
+      this.CONTEXTEXPIRATION,
+    )
   }
 
-  async addUserMessage(userId: string, message: string) {
-    const context = await this.getContext(userId)
-
-    context.history.push({
-      role: 'user',
-      content: message,
-      timestamp: Date.now(),
-    })
-
-    await this.redisClient.set(`context:${userId}`, JSON.stringify(context))
-    await this.redisClient.expire(`context:${userId}`, this.CONTEXTEXPIRATION)
-
-    return context
-  }
-
-  async clearContext(userId: string) {
-    await this.redisClient.del(`context:${userId}`)
+  async clearContext(phoneNumber: string) {
+    await this.redisClient.del(`context:${phoneNumber}`)
     return true
   }
 

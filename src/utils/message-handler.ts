@@ -1,5 +1,5 @@
 import venom from 'venom-bot'
-import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
+import { sendMessageAi } from '../wpp/venom-bot/sendMessageAi'
 import { findContactByPhoneNumberTool } from '../ai/ai-tools/find-contact-phonenumber-controller'
 import { env } from '../../env'
 import { disableContactTool } from '../ai/ai-tools/disable-contact-controller'

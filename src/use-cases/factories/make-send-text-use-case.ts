@@ -1,7 +1,7 @@
 import { WppFactory } from '../../wpp/factories/wpp-factory'
 import { WppVenomRepository } from '../../wpp/repositories/wpp-venom-repository'
 import { WppNotInicializedError } from '../../ws/errors/wpp-not-inicialized-error'
-import { SendText } from '../venom-bot/send-text'
+import { SendText } from '../../wpp/venom-bot/send-text'
 
 export function makeSendTextUseCase() {
   const venomClient = WppFactory.getVenomClient()

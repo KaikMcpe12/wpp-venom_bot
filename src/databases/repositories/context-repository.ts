@@ -13,15 +13,7 @@ export interface IContextRespondeFormat {
 }
 
 export abstract class ContextRepository {
-  abstract getContext(userId: string): Promise<IContext>
-  abstract addUserMessage(userId: string, message: string): Promise<string>
-  abstract updateContext(
-    userId: string,
-    message: string,
-    response: string,
-    metadata: object,
-  ): Promise<boolean>
-
-  abstract clearContext(userId: string): Promise<boolean>
-  abstract close(): Promise<void>
+  abstract getContext(phoneNumber: string): Promise<IContext>
+  abstract saveContext(phoneNumber: string, context: IContext): Promise<void>
+  abstract clearContext(phoneNumber: string): Promise<boolean>
 }

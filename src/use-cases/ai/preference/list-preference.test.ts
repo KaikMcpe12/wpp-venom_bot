@@ -7,22 +7,25 @@ import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 import { ListPreference } from './list-preference-usercase'
 
 describe('List preference', () => {
-  let inMemoryPreference: InMemoryPreferenceRepository
-  let inMemoryContact: InMemoryContactRepository
+  let inMemoryPreferenceRepository: InMemoryPreferenceRepository
+  let inMemoryContactRepository: InMemoryContactRepository
   let listPreference: ListPreference
   let contact: any
 
   beforeEach(async () => {
-    inMemoryPreference = new InMemoryPreferenceRepository()
-    inMemoryContact = new InMemoryContactRepository()
+    inMemoryPreferenceRepository = new InMemoryPreferenceRepository()
+    inMemoryContactRepository = new InMemoryContactRepository()
 
-    listPreference = new ListPreference(inMemoryPreference, inMemoryContact)
+    listPreference = new ListPreference(
+      inMemoryPreferenceRepository,
+      inMemoryContactRepository,
+    )
 
     contact = makeContact({ phonenumber: '123456789' })
-    await inMemoryContact.create(contact)
+    await inMemoryContactRepository.create(contact)
 
-    await inMemoryPreference.create(makePreference(contact.id))
-    await inMemoryPreference.create(makePreference(contact.id))
+    await inMemoryPreferenceRepository.create(makePreference(contact.id))
+    await inMemoryPreferenceRepository.create(makePreference(contact.id))
   })
 
   it('should create a new preference', async () => {
@@ -51,7 +54,7 @@ describe('List preference', () => {
 
   it('should return null if there is no preference', async () => {
     contact = makeContact({ phonenumber: '1234567892' })
-    await inMemoryContact.create(contact)
+    await inMemoryContactRepository.create(contact)
 
     const preferences = await listPreference.execute({
       phoneNumber: '1234567892',

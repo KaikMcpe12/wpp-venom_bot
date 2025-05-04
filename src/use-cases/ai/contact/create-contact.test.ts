@@ -6,8 +6,8 @@ import { ContactAlredyExistsError } from '../../errors/contact-alredy-exists-err
 
 describe('Create Contact', () => {
   it('should create a new contact', async () => {
-    const prismaContactRepository = new InMemoryContactRepository()
-    const createContact = new CreateContact(prismaContactRepository)
+    const inMemoryContactRepository = new InMemoryContactRepository()
+    const createContact = new CreateContact(inMemoryContactRepository)
 
     const requestUser = makeContact()
 
@@ -17,8 +17,8 @@ describe('Create Contact', () => {
   })
 
   it('should throw an error when trying to create a contact with an existing phone number', async () => {
-    const prismaContactRepository = new InMemoryContactRepository()
-    const createContact = new CreateContact(prismaContactRepository)
+    const inMemoryContactRepository = new InMemoryContactRepository()
+    const createContact = new CreateContact(inMemoryContactRepository)
 
     const phonenumber = '9999999999999'
 

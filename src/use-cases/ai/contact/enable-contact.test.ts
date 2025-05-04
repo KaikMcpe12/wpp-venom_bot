@@ -4,10 +4,10 @@ import EnableContact from './enable-contact-usecase'
 
 describe('Enable botstatus', () => {
   it('should enable botstatus', async () => {
-    const inMemory = new InMemoryContactRepository()
-    const enableContact = new EnableContact(inMemory)
+    const inMemoryContactRepository = new InMemoryContactRepository()
+    const enableContact = new EnableContact(inMemoryContactRepository)
 
-    inMemory.create(
+    inMemoryContactRepository.create(
       makeContact({
         phonenumber: '(12)12212-1212',
         name: 'Augusto',
@@ -15,8 +15,8 @@ describe('Enable botstatus', () => {
       }),
     )
 
-    await enableContact.execute(inMemory.contacts[0])
+    await enableContact.execute(inMemoryContactRepository.contacts[0])
 
-    expect(inMemory.contacts[0].botstatus).toBe(true)
+    expect(inMemoryContactRepository.contacts[0].botstatus).toBe(true)
   })
 })

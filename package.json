@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles",
+    "test": "jest --detectOpenHandles src/use-cases",
+    "test:ai": "jest --detectOpenHandles --dir src/ai",
+    "test:wpp": "jest --detectOpenHandles --dir src/wpp",
     "test:coverage": "jest --coverage",
     "lint": "eslint . --ext .ts --fix",
     "dev": "tsx watch src/server.ts"

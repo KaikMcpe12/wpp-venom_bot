@@ -1,5 +1,5 @@
 import { getAiClient } from '../lib/ai-client'
-import { sendMessageAi } from '../use-cases/venom-bot/sendMessageAi'
+import { sendMessageAi } from '../wpp/venom-bot/sendMessageAi'
 import { IAiService } from './interface/IAiService'
 
 describe.skip('Test ia chat', () => {

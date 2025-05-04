@@ -1,6 +1,6 @@
 import { IGetAllContacts } from '../../http/dto/get-all-contact-schema'
-import { WppRepository } from '../../wpp/repositories/wpp-repository'
-import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { WppRepository } from '../repositories/wpp-repository'
+import { ResourceNotFoundError } from '../../use-cases/errors/resource-not-found-error'
 
 export class GetAllContacts {
   constructor(private wpp: WppRepository) {}

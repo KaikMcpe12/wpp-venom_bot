@@ -1,6 +1,6 @@
 import { ISendButton } from '../../http/dto/send-button-schema'
-import { WppRepository } from '../../wpp/repositories/wpp-repository'
-import { MessageNotSentError } from '../errors/message-not-sent-error'
+import { WppRepository } from '../repositories/wpp-repository'
+import { MessageNotSentError } from '../../use-cases/errors/message-not-sent-error'
 
 export class SendButton {
   constructor(private wpp: WppRepository) {}

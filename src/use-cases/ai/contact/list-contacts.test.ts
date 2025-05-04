@@ -6,9 +6,9 @@ import { ListContacts } from './list-contacts-usecase'
 
 describe('List Contact', () => {
   it('should list all contacts', async () => {
-    const prismaContactRepository = new InMemoryContactRepository()
-    const createContact = new CreateContact(prismaContactRepository)
-    const listContacts = new ListContacts(prismaContactRepository)
+    const inMemoryContactRepository = new InMemoryContactRepository()
+    const createContact = new CreateContact(inMemoryContactRepository)
+    const listContacts = new ListContacts(inMemoryContactRepository)
 
     for (let i = 0; i < 10; i++) {
       await createContact.execute(makeContact())
